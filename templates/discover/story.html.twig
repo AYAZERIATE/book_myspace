@@ -1,0 +1,222 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Our Story{% endblock %}
+
+{% block body %}
+<style>
+  /* ===== Our Story — scoped editorial styling ===== */
+  /* Everything below is scoped under .story so it never touches other pages. */
+
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap');
+
+  .story {
+    --obs-ivory: #FAF7F1;
+    --obs-ink: #2A2520;
+    --obs-taupe: #5C5147;
+    --obs-line: #E4DACB;
+    --obs-gold: #B7935F;
+
+    background: var(--obs-ivory);
+    color: var(--obs-ink);
+  }
+
+  /* Shared heading treatment — one serif for both major headings */
+  .story h1,
+  .story h2 {
+    margin: 0;
+    color: var(--obs-ink);
+  }
+
+  /* "About us" / "Our teams" become small elegant eyebrows above the content */
+  .story .About-us > h1,
+  .story .Our-Teams > h1 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--obs-taupe);
+    text-align: center;
+    margin: 0 0 1.5rem;
+  }
+
+  .story .obs-rule {
+    width: 44px;
+    height: 1px;
+    background: var(--obs-gold);
+    margin: 0 auto 2.5rem;
+  }
+
+  /* ---------- About Us ---------- */
+
+  .story .About-us {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 6.5rem 1.5rem 6rem;
+    text-align: center;
+  }
+
+  .story .About-us .obs-heading {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+    line-height: 1.28;
+    max-width: 480px;
+    margin: 0 auto 2.25rem;
+  }
+
+  .story .About-us .obs-body {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .story .About-us .obs-body p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--obs-taupe);
+    margin: 0 0 1.4rem;
+  }
+
+  .story .About-us .obs-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ---------- Our Teams ---------- */
+
+  .story .Our-Teams {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 7rem;
+  }
+
+  .story .obs-teams-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1fr;
+    gap: 4.5rem;
+    align-items: center;
+  }
+
+  .story .obs-teams-media {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--obs-line);
+    border-radius: 3px;
+    aspect-ratio: 4 / 5;
+  }
+
+  .story .obs-teams-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .story .obs-teams-media:hover img {
+    transform: scale(1.045);
+  }
+
+  .story .obs-teams-content h2 {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+    font-size: clamp(1.55rem, 2.6vw, 2.15rem);
+    line-height: 1.32;
+    margin-bottom: 1.6rem;
+  }
+
+  .story .obs-teams-content .obs-rule {
+    margin: 0 0 1.6rem;
+  }
+
+  .story .obs-teams-content p {
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: var(--obs-taupe);
+    max-width: 46ch;
+    margin: 0 0 1.25rem;
+  }
+
+  .story .obs-teams-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ---------- Tablet ---------- */
+  @media (max-width: 991px) {
+    .story .About-us {
+      padding: 5rem 1.5rem 4.5rem;
+    }
+
+    .story .Our-Teams {
+      padding: 0.5rem 1.5rem 5rem;
+    }
+
+    .story .obs-teams-grid {
+      gap: 2.75rem;
+    }
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 767px) {
+    .story .About-us {
+      padding: 4rem 1.25rem 3.5rem;
+    }
+
+    .story .Our-Teams {
+      padding: 0 1.25rem 4rem;
+    }
+
+    .story .obs-teams-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .story .obs-teams-media {
+      aspect-ratio: 16 / 11;
+    }
+
+    .story .obs-teams-content p {
+      max-width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .story .obs-teams-media img {
+      transition: none;
+    }
+  }
+</style>
+
+<div class="main_contain">
+  <div class="story ">
+  <div class="About-us">
+  <h1>About us</h1>
+  <h2 class="obs-heading">A Space Designed for Every Experience</h2>
+  <div class="obs-rule"></div>
+  <div class="obs-body">
+  <p>Book My Space was created with a simple idea: finding the right workspace should feel as effortless as arriving somewhere you truly belong.</p>
+  <p>From quiet individual spaces to inspiring meeting rooms, we bring together carefully selected environments designed for focus, collaboration, creativity, and connection.</p>
+  <p>Every space has its own atmosphere, character, and purpose. Our mission is to make discovering and booking these places simple, while creating experiences that stay with you long after you leave.</p>
+  <p>Discover Book My Space — where every space tells a story.</p>
+  </div>
+  </div>
+  <div class="Our-Teams">
+  <h1>
+  Our teams 
+  </h1>
+  <div class="obs-teams-grid">
+    <div class="obs-teams-media">
+      <img src="{{ asset('assets/spark/images/story_2.jpg') }}"/>
+    </div>
+    <div class="obs-teams-content">
+      <h2>The People Behind Book My Space</h2>
+      <div class="obs-rule" style="margin-left:0;"></div>
+      <p>Behind every space and every experience is a team passionate about creating places where people can work, connect, and feel inspired.</p>
+      <p>Our team brings together creativity, technology, and hospitality to make every step of your journey simple and seamless — from discovering the perfect space to making it yours.</p>
+      <p>Together, we are building more than a booking platform. We are creating a community of inspiring spaces and memorable experiences.</p>
+      <p>Meet the people who bring Book My Space to life.</p>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+{% endblock %}

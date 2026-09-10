@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}Discover{% endblock %} - Book My Space
+    </title>
+
+    <meta
+        name="description"
+        content="Book My Space - Premium space booking platform"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ asset('assets/spark/images/favicon.ico') }}"
+    >
+
+    <!-- Bootstrap -->
+    <link
+        rel="stylesheet"
+        href="{{ asset('assets/spark/libs/bootstrap/css/bootstrap.min.css') }}"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="{{ asset('assets/spark/libs/bootstrap-icons/bootstrap-icons.css') }}"
+    >
+
+    <!-- Spark Admin CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ asset('assets/spark/css/main.css') }}"
+    >
+
+    <!-- Premium Footer CSS -->
+    <style>
+
+        .site-footer {
+            --footer-bg: #22201c;
+            --footer-ink: #f8f6f1;
+            --footer-ink-muted: #c7c0b5;
+            --footer-accent: #c7a86d;
+            --footer-accent-hover: #e0c996;
+            --footer-border: rgba(248, 246, 241, 0.16);
+            --footer-focus: #e0c996;
+
+            background: var(--footer-bg);
+            color: var(--footer-ink-muted);
+            font-size: 0.9375rem;
+            width: calc(100% + 5rem);
+            margin: auto -2.5rem -2rem;
+            overflow: hidden;
+        }
+
+        /* =========================
+           TOP
+        ========================= */
+
+        .site-footer-top {
+            padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 3rem) clamp(2rem, 4vw, 3rem);
+        }
+
+        .site-footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+            gap: 2.5rem 3rem;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 992px) {
+
+            .site-footer-grid {
+                grid-template-columns: minmax(16rem, 1.6fr) repeat(3, minmax(10rem, 1fr));
+            }
+
+        }
+
+        /* =========================
+           BRAND
+        ========================= */
+
+        .site-footer-brand {
+            padding-right: 1rem;
+            grid-column: 1 / -1;
+        }
+
+        @media (min-width: 992px) {
+
+            .site-footer-brand {
+                grid-column: auto;
+            }
+
+        }
+
+        .site-footer-brand-name {
+            display: inline-block;
+            font-family: Georgia, "Iowan Old Style", serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.01em;
+            color: var(--footer-ink);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .site-footer-brand-name:hover,
+        .site-footer-brand-name:focus-visible {
+            color: var(--footer-accent-hover);
+        }
+
+        .site-footer-tagline {
+            margin: 1.25rem 0 0.5rem;
+            font-family: Georgia, "Iowan Old Style", serif;
+            font-style: italic;
+            font-size: 1.0625rem;
+            color: var(--footer-ink);
+        }
+
+        .site-footer-description {
+            max-width: 34ch;
+            margin: 0 0 1.75rem;
+            line-height: 1.7;
+            color: var(--footer-ink-muted);
+        }
+
+        /* =========================
+           SOCIAL
+        ========================= */
+
+        .site-footer-social {
+            display: flex;
+            gap: 1.25rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .site-footer-social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            color: var(--footer-ink-muted);
+            text-decoration: none;
+            font-size: 1.0625rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .site-footer-social-link:hover,
+        .site-footer-social-link:focus-visible {
+            color: var(--footer-accent);
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .site-footer-section {
+            border-top: 1px solid var(--footer-border);
+            padding-top: 1.25rem;
+        }
+
+        @media (min-width: 992px) {
+
+            .site-footer-section {
+                border-top: 0;
+                padding-top: 0;
+            }
+
+        }
+
+        .site-footer-section-title {
+            display: block;
+            margin-bottom: 1.25rem;
+            color: var(--footer-ink);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .site-footer-section-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: none;
+            border: 0;
+            padding: 0.25rem 0 1rem;
+            color: var(--footer-ink);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-align: left;
+        }
+
+        .site-footer-section-toggle:focus-visible {
+            outline: 2px solid var(--footer-focus);
+            outline-offset: 3px;
+        }
+
+        .site-footer-section-caret {
+            transition: transform 0.2s ease;
+            color: var(--footer-ink-muted);
+        }
+
+        .site-footer-section-toggle[aria-expanded="false"]
+        .site-footer-section-caret {
+            transform: rotate(-90deg);
+        }
+
+        /* =========================
+           LINKS
+        ========================= */
+
+        .site-footer-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .site-footer-links a {
+            color: var(--footer-ink-muted);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-footer-links a:hover {
+            color: var(--footer-accent-hover);
+        }
+
+        .site-footer-links a[aria-current="page"] {
+            color: var(--footer-accent);
+        }
+
+        /* Coming-soon footer links (mirrors the navbar's "Soon" treatment):
+           muted, non-interactive, with a small pill badge. */
+        .site-footer-link-soon {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--footer-ink-muted);
+            cursor: default;
+        }
+
+        .site-footer-soon-badge {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--footer-bg);
+            background: var(--footer-accent);
+            border-radius: 999px;
+        }
+
+        @media (max-width: 991.98px) {
+
+            .site-footer-links {
+                padding-bottom: 0.5rem;
+            }
+
+        }
+
+        /* =========================
+           BOTTOM BAR
+        ========================= */
+
+        .site-footer-bottom {
+            border-top: 1px solid var(--footer-border);
+            padding: 1.5rem clamp(1.25rem, 5vw, 3rem);
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 0.75rem;
+
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+
+            .site-footer-bottom {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+        }
+
+        .site-footer-copyright {
+            margin: 0;
+            font-size: 0.8125rem;
+            color: var(--footer-ink-muted);
+        }
+
+        /* =========================
+           LEGAL
+        ========================= */
+
+        .site-footer-legal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0;
+
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            font-size: 0.8125rem;
+        }
+
+        .site-footer-legal li {
+            display: flex;
+            align-items: center;
+        }
+
+        .site-footer-legal li:not(:last-child)::after {
+            content: "\00B7";
+            margin: 0 0.6rem;
+            color: var(--footer-ink-muted);
+        }
+
+        .site-footer-legal a {
+            color: var(--footer-ink-muted);
+            text-decoration: none;
+        }
+
+        .site-footer-legal a:hover,
+        .site-footer-legal a:focus-visible {
+            color: var(--footer-accent-hover);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 991.98px) {
+
+            .site-footer-section:last-child {
+                padding-bottom: 0;
+            }
+
+        }
+
+        @media (max-width: 1200px) {
+
+            .site-footer {
+                width: calc(100% + 3rem);
+                margin-right: -1.5rem;
+                margin-bottom: -1.5rem;
+                margin-left: -1.5rem;
+            }
+
+        }
+
+        @media (max-width: 575.98px) {
+
+            .site-footer {
+                width: calc(100% + 2.5rem);
+                margin-right: -1.25rem;
+                margin-bottom: -1.5rem;
+                margin-left: -1.25rem;
+            }
+
+            .site-footer-legal li:not(:last-child)::after {
+                margin: 0 0.4rem;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .site-footer-social-link,
+            .site-footer-section-caret,
+            .site-footer-links a,
+            .site-footer-brand-name {
+                transition: none;
+            }
+
+        }
+
+        /* Shared luxury treatment for the primary navigation ("sidebar")
+           and its menus. These rules stay visual-only; all Twig behavior,
+           breakpoints, and Bootstrap interactions remain unchanged. */
+        .booking-navbar {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .booking-brand,
+        .site-footer-brand-name {
+            font-family: Georgia, "Iowan Old Style", serif;
+            font-weight: 400;
+        }
+
+        .booking-navbar-toggler,
+        .booking-icon-button,
+        .booking-profile-button {
+            background: transparent;
+        }
+
+        .booking-navbar-toggler:hover,
+        .booking-navbar-toggler:focus-visible,
+        .booking-icon-button:hover,
+        .booking-icon-button:focus-visible,
+        .booking-profile-button:hover,
+        .booking-profile-button:focus-visible {
+            background: #f5f0e7;
+        }
+
+        .booking-nav-link,
+        .booking-auth-link {
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+        }
+
+        .booking-dropdown {
+            background: #fffdf9;
+            border-color: #ded8cd;
+            box-shadow: 0 14px 34px rgba(34, 32, 28, 0.1);
+        }
+
+        .booking-dropdown .dropdown-item {
+            color: #22201c;
+        }
+
+        .booking-dropdown .dropdown-item:hover:not(:disabled) {
+            background: #f5f0e7;
+        }
+
+        .booking-auth-link--primary {
+            color: #fffdf9;
+        }
+
+        .site-footer {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .site-footer-section-title,
+        .site-footer-section-toggle {
+            color: var(--footer-ink);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .site-footer-brand-name {
+            font-size: 1.7rem;
+        }
+
+        .site-footer-tagline {
+            color: #e5dfd4;
+        }
+
+        .site-footer-social-link {
+            border: 1px solid rgba(248, 246, 241, 0.22);
+            border-radius: 50%;
+            transition: color 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+        }
+
+        .site-footer-social-link:hover,
+        .site-footer-social-link:focus-visible {
+            border-color: var(--footer-accent);
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .booking-navbar {
+            --nav-bg: #fffdf9;
+            --nav-ink: #22201c;
+            --nav-ink-muted: #706b62;
+            --nav-accent: #a88b57;
+            --nav-accent-hover: #7d653b;
+            --nav-border: #ded8cd;
+
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--nav-border);
+            transition: box-shadow 0.25s ease;
+        }
+
+        .booking-navbar.is-scrolled {
+            box-shadow: 0 8px 24px rgba(34, 32, 28, 0.08);
+        }
+
+        .booking-navbar-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 1rem clamp(1.25rem, 5vw, 3rem);
+            transition: padding 0.25s ease;
+            min-width: 0;
+        }
+
+        .booking-navbar.is-scrolled .booking-navbar-inner {
+            padding-top: 0.65rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .booking-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: Georgia, "Iowan Old Style", serif;
+            font-size: 1.25rem;
+            color: var(--nav-ink);
+            text-decoration: none;
+            letter-spacing: 0.01em;
+            flex-shrink: 0;
+        }
+
+        .booking-navbar-toggler {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--nav-border);
+            border-radius: 0.5rem;
+            color: var(--nav-ink);
+            transition: background 0.2s ease;
+        }
+
+        .booking-navbar-toggler:hover,
+        .booking-navbar-toggler:focus-visible {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .booking-navbar-toggler i {
+            transition: transform 0.2s ease;
+        }
+
+        .booking-navbar-toggler[aria-expanded="true"] i {
+            transform: rotate(90deg);
+        }
+
+        .booking-navbar-collapse {
+            display: flex;
+            align-items: center;
+            gap: clamp(1.5rem, 3vw, 3rem);
+            flex-grow: 1;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .booking-nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(1.1rem, 2.6vw, 2rem);
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+
+        .booking-nav-link {
+            position: relative;
+            padding: 0.35rem 0;
+            color: var(--nav-ink-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        .booking-nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: var(--nav-accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.25s ease;
+        }
+
+        .booking-nav-link:hover,
+        .booking-nav-link:focus-visible {
+            color: var(--nav-ink);
+        }
+
+        .booking-nav-link:hover::after,
+        .booking-nav-link:focus-visible::after,
+        .booking-nav-link.is-active::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .booking-nav-link.is-active {
+            color: var(--nav-ink);
+        }
+
+        .booking-nav-link.is-unavailable {
+            cursor: default;
+        }
+
+        .booking-nav-link.is-unavailable::after {
+            display: none;
+        }
+
+        .booking-soon-badge {
+            display: inline-block;
+            margin-left: 0.4rem;
+            padding: 0.1rem 0.45rem;
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--nav-bg);
+            background: var(--nav-accent);
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+
+        /* Nav-level dropdown toggle ("More") needs a button reset since
+           it reuses .booking-nav-link's look but is a <button>, not an <a>. */
+        .booking-nav-dropdown-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: none;
+            border: 0;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .booking-nav-dropdown-toggle i {
+            font-size: 0.7rem;
+            transition: transform 0.2s ease;
+        }
+
+        .booking-nav-dropdown-toggle[aria-expanded="true"] i {
+            transform: rotate(180deg);
+        }
+
+        .booking-navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .booking-icon-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--nav-border);
+            border-radius: 50%;
+            color: var(--nav-ink);
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .booking-icon-button:hover,
+        .booking-icon-button:focus-visible {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--nav-accent);
+            transform: translateY(-1px);
+        }
+
+        .booking-notification-dot {
+            position: absolute;
+            top: 0.45rem;
+            right: 0.5rem;
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 50%;
+            background: var(--nav-accent);
+        }
+
+        .booking-profile-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.75rem 0.3rem 0.3rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--nav-border);
+            border-radius: 999px;
+            color: var(--nav-ink);
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .booking-profile-button:hover,
+        .booking-profile-button:focus-visible {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--nav-accent);
+        }
+
+        /* Admin pill reuses .booking-profile-button but stays visually
+           distinct with a permanent accent border, since it only ever
+           appears for ROLE_ADMIN users. */
+        .booking-admin-pill {
+            border-color: var(--nav-accent);
+        }
+
+        .booking-avatar {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .booking-profile-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .booking-dropdown {
+            margin-top: 0.75rem;
+            padding: 0.5rem;
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+            min-width: 14rem;
+        }
+
+        /* Dynamic open/close: override Bootstrap's instant display:none/block
+           swap with an opacity+visibility fade, since display can't be
+           transitioned. Scoped to .booking-dropdown only, so it never
+           touches other dropdown-menu instances elsewhere in the app.
+           (Transform is intentionally left alone — Popper sets its own
+           inline transform for positioning, which would silently override
+           any transform we set here.) */
+        .dropdown-menu.booking-dropdown {
+            display: block;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.18s ease, visibility 0.18s ease;
+        }
+
+        .dropdown-menu.booking-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .booking-dropdown-label {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--nav-ink-muted);
+        }
+
+        .booking-dropdown p {
+            margin: 0;
+            padding: 0 0.75rem 0.5rem;
+            font-size: 0.85rem;
+            color: var(--nav-ink-muted);
+        }
+
+        .booking-dropdown .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.55rem 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--nav-ink);
+            font-size: 0.875rem;
+            transition: background 0.15s ease;
+        }
+
+        .booking-dropdown .dropdown-item:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .booking-dropdown .dropdown-item:disabled,
+        .booking-dropdown .dropdown-item.disabled {
+            color: var(--nav-ink-muted);
+            cursor: default;
+        }
+
+        .booking-dropdown .dropdown-divider {
+            border-color: var(--nav-border);
+        }
+
+        /* Logged-out state: Sign In / Create Account, shown instead of
+           the profile avatar. Disabled look until real auth routes exist. */
+        .booking-auth-links {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .booking-auth-link {
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid var(--nav-border);
+            color: var(--nav-ink-muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            cursor: default;
+        }
+
+        .booking-auth-link--primary {
+            background: var(--nav-accent);
+            color: var(--nav-bg);
+            border-color: var(--nav-accent);
+            font-weight: 600;
+        }
+
+        @media (max-width: 991.98px) {
+
+            .booking-navbar-toggler {
+                display: inline-flex;
+            }
+
+            .booking-navbar-collapse {
+                display: none;
+                width: 100%;
+            }
+
+            .booking-navbar-collapse.show,
+            .booking-navbar-collapse.collapsing {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .booking-navbar-inner {
+                flex-wrap: wrap;
+            }
+
+            .booking-nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                gap: 0.25rem;
+                padding: 1rem 0 0.5rem;
+                border-top: 1px solid var(--nav-border);
+                margin-top: 0.75rem;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .booking-navbar,
+            .booking-navbar-inner,
+            .booking-nav-link,
+            .booking-nav-link::after,
+            .booking-nav-dropdown-toggle i,
+            .booking-icon-button,
+            .booking-profile-button,
+            .booking-navbar-toggler i,
+            .dropdown-menu.booking-dropdown {
+                transition: none;
+            }
+
+        }
+
+        /* Keep the luxury navigation overrides after the responsive rules. */
+        .booking-navbar-toggler,
+        .booking-icon-button,
+        .booking-profile-button {
+            background: transparent;
+        }
+
+        .booking-navbar-toggler:hover,
+        .booking-navbar-toggler:focus-visible,
+        .booking-icon-button:hover,
+        .booking-icon-button:focus-visible,
+        .booking-profile-button:hover,
+        .booking-profile-button:focus-visible {
+            background: #f5f0e7;
+        }
+
+        .booking-nav-link,
+        .booking-auth-link {
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+        }
+
+        .booking-dropdown {
+            background: #fffdf9;
+            border-color: #ded8cd;
+            box-shadow: 0 14px 34px rgba(34, 32, 28, 0.1);
+        }
+
+        .booking-dropdown .dropdown-item {
+            color: #22201c;
+        }
+
+        .booking-dropdown .dropdown-item:hover:not(:disabled) {
+            background: #f5f0e7;
+        }
+
+        .booking-auth-link--primary {
+            color: #fffdf9;
+        }
+@media (min-width: 992px) {
+    .booking-navbar-collapse {
+        display: flex !important;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .booking-nav-links {
+        display: flex !important;
+        align-items: center;
+    }
+}
+    </style>
+
+    {% block stylesheets %}{% endblock %}
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     MAIN WRAPPER
+========================================================= -->
+
+<div class="main-wrapper">
+
+    {% set currentRoute = app.request.attributes.get('_route') %}
+    {% set isAuthenticated = app.user is not null %}
+    {% set displayName = isAuthenticated ? app.user.userIdentifier : 'Guest' %}
+    {% set isAdmin = isAuthenticated and app.user.roles is defined and 'ROLE_ADMIN' in app.user.roles %}
+
+    {#
+        ============================================================
+        CENTRALIZED NAVIGATION DATA
+        ============================================================
+        Add a new page to the navbar by adding ONE line below —
+        no other template changes are needed. The footer's "Explore"
+        column is generated from this same list further down, so a
+        page added here shows up in both places automatically.
+
+        route: null  => the page has no route yet, so it renders as a
+                         disabled "Coming Soon" item instead of a broken link
+                         (in both the navbar and the footer).
+                         Fill in the real route name here once it exists.
+
+        Once the list grows past `maxPrimaryNavItems`, the extra items
+        automatically collapse into the "Explore" dropdown so the bar
+        never gets crowded — nothing else needs to change when that
+        threshold is crossed.
+    #}
+    {% set navigationItems = [
+        { label: 'Discover',      route: 'app_discover' },
+        { label: 'Rooms',         route: 'app_rooms' },
+        { label: 'Amenities',     route: 'app_amenities' },
+        { label: 'Offers',        route: 'app_offers' },
+        { label: 'Guest Reviews', route: null },
+        { label: 'Reservations',  route: null }
+    ] %}
+    {% set maxPrimaryNavItems = 5 %}
+
+    {% set primaryNavItems = [] %}
+    {% set overflowNavItems = [] %}
+    {% for item in navigationItems %}
+        {% if loop.index0 < maxPrimaryNavItems %}
+            {% set primaryNavItems = primaryNavItems|merge([item]) %}
+        {% else %}
+            {% set overflowNavItems = overflowNavItems|merge([item]) %}
+        {% endif %}
+    {% endfor %}
+
+    {#
+        Account-scoped links, shown inside the profile dropdown only
+        when a user is authenticated. Same route:null => Coming Soon
+        convention as above.
+    #}
+    {% set accountNavItems = [
+        { label: 'Profile',         route: null, icon: 'bi-person' },
+        { label: 'My Reservations', route: null, icon: 'bi-calendar-check' },
+        { label: 'Favorites',       route: null, icon: 'bi-heart' }
+    ] %}
+
+    {#
+        Admin-only links. This whole block is skipped entirely unless
+        isAdmin is true — normal users never see it rendered at all,
+        not even as disabled markup.
+    #}
+    {% set adminNavItems = [
+        { label: 'Admin Dashboard',     route: null },
+        { label: 'Manage Rooms',        route: null },
+        { label: 'Manage Offers',       route: null },
+        { label: 'Manage Reservations', route: null }
+    ] %}
+
+    <header class="booking-navbar">
+        <div class="booking-navbar-inner">
+            <a href="{{ path('app_discover') }}" class="booking-brand" aria-label="BookMySpace — Discover">
+                <span>BookMySpace</span>
+            </a>
+
+            <button class="booking-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#booking-navigation" aria-controls="booking-navigation" aria-expanded="false" aria-label="Open navigation">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="collapse booking-navbar-collapse" id="booking-navigation">
+                <nav class="booking-nav-links" aria-label="Primary navigation">
+
+                    {% for item in primaryNavItems %}
+                        {% if item.route %}
+                            <a href="{{ path(item.route) }}"
+                               class="booking-nav-link {% if currentRoute == item.route %}is-active{% endif %}"
+                               {% if currentRoute == item.route %}aria-current="page"{% endif %}>{{ item.label }}</a>
+                        {% else %}
+                            <span class="booking-nav-link is-unavailable" aria-disabled="true" title="{{ item.label }} will be available soon">{{ item.label }}<span class="booking-soon-badge">Soon</span></span>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if overflowNavItems|length > 0 %}
+                        <div class="dropdown booking-nav-dropdown">
+                            <button class="booking-nav-link booking-nav-dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Explore <i class="bi bi-chevron-down"></i>
+                            </button>
+                            <ul class="dropdown-menu booking-dropdown">
+                                {% for item in overflowNavItems %}
+                                    <li>
+                                        {% if item.route %}
+                                            <a class="dropdown-item {% if currentRoute == item.route %}is-active{% endif %}" href="{{ path(item.route) }}">{{ item.label }}</a>
+                                        {% else %}
+                                            <span class="dropdown-item disabled" aria-disabled="true">{{ item.label }} <span class="booking-soon-badge">Soon</span></span>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                </nav>
+            </div>
+
+            <div class="booking-navbar-actions">
+
+                {% if isAdmin %}
+                    <div class="dropdown">
+                        <button class="booking-profile-button booking-admin-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Admin menu">
+                            <i class="bi bi-shield-lock"></i>
+                            <span class="booking-profile-name">Admin</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end booking-dropdown" aria-label="Admin menu">
+                            {% for item in adminNavItems %}
+                                <li>
+                                    {% if item.route %}
+                                        <a class="dropdown-item" href="{{ path(item.route) }}">{{ item.label }}</a>
+                                    {% else %}
+                                        <span class="dropdown-item disabled" aria-disabled="true">{{ item.label }} <span class="booking-soon-badge">Soon</span></span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="dropdown">
+                    <button class="booking-icon-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+                        <i class="bi bi-bell"></i><span class="booking-notification-dot"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end booking-dropdown booking-notifications">
+                        <span class="booking-dropdown-label">Notifications</span>
+                        <p>You are all caught up.</p>
+                    </div>
+                </div>
+
+                {% if isAuthenticated %}
+                    <div class="dropdown">
+                        <button class="booking-profile-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Open profile menu">
+                            <img src="{{ asset('assets/spark/images/avatar.png') }}" alt="" class="booking-avatar">
+                            <span class="booking-profile-name">{{ displayName }}</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end booking-dropdown" aria-label="Profile menu">
+                            <li><span class="booking-dropdown-label">{{ displayName }}</span></li>
+                            {% for item in accountNavItems %}
+                                <li>
+                                    {% if item.route %}
+                                        <a class="dropdown-item" href="{{ path(item.route) }}"><i class="bi {{ item.icon }}"></i> {{ item.label }}</a>
+                                    {% else %}
+                                        <button class="dropdown-item" type="button" disabled><i class="bi {{ item.icon }}"></i> {{ item.label }}</button>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button class="dropdown-item text-danger" type="button" disabled><i class="bi bi-box-arrow-right"></i> Logout</button></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="booking-auth-links">
+                        <span class="booking-auth-link" aria-disabled="true" title="Sign in will be available soon">Sign In</span>
+                        <span class="booking-auth-link booking-auth-link--primary" aria-disabled="true" title="Account creation will be available soon">Create Account</span>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </header>
+
+    {% block body %}{% endblock %}
+
+
+
+    <!-- =====================================================
+         PREMIUM FOOTER
+    ====================================================== -->
+
+    {% block footer %}
+
+    {% set isAuthenticated = app.user is not null %}
+
+    {% set currentRoute = app.request.attributes.get('_route') %}
+
+
+    {#
+        The "Explore" footer column is generated straight from
+        navigationItems (defined above, next to the navbar) instead of
+        its own hardcoded list. That's the "single source of truth" for
+        site navigation: add/rename/reorder a page once, up top, and both
+        the navbar and the footer pick it up automatically.
+    #}
+    {% set exploreFooterLinks = [] %}
+    {% for item in navigationItems %}
+        {% set exploreFooterLinks = exploreFooterLinks|merge([{ label: item.label, route: item.route }]) %}
+    {% endfor %}
+
+
+    {% set footerNavSections = footerNavSections|default([
+
+        {
+            id: 'explore',
+            title: 'Explore',
+
+            links: exploreFooterLinks
+        },
+
+
+        {
+            id: 'booking',
+            title: 'Booking',
+
+            links: isAuthenticated
+
+                ? [
+
+                    {
+                        label: 'My Reservations',
+                        url: '#'
+                    },
+
+                    {
+                        label: 'Booking History',
+                        url: '#'
+                    },
+
+                    {
+                        label: 'Favorites',
+                        url: '#'
+                    }
+
+                ]
+
+                : [
+
+                    {
+                        label: 'Sign In',
+                        url: '#'
+                    },
+
+                    {
+                        label: 'Create Account',
+                        url: '#'
+                    }
+
+                ]
+        },
+
+
+        {
+            id: 'support',
+            title: 'Support',
+
+            links: [
+
+                {
+                    label: 'Help Center',
+                    url: '#'
+                },
+
+                {
+                    label: 'Contact Us',
+                    url: '#'
+                },
+
+                {
+                    label: 'Concierge',
+                    url: '#'
+                }
+
+            ]
+        }
+
+    ]) %}
+
+
+    {% set legalLinks = legalLinks|default([
+
+        {
+            label: 'Privacy Policy',
+            url: '#'
+        },
+
+        {
+            label: 'Terms & Conditions',
+            url: '#'
+        },
+
+        {
+            label: 'Cookie Policy',
+            url: '#'
+        }
+
+    ]) %}
+
+
+    {% set socialLinks = socialLinks|default([
+
+        {
+            label: 'Instagram',
+            icon: 'bi-instagram',
+            url: '#'
+        },
+
+        {
+            label: 'Facebook',
+            icon: 'bi-facebook',
+            url: '#'
+        },
+
+        {
+            label: 'LinkedIn',
+            icon: 'bi-linkedin',
+            url: '#'
+        }
+
+    ]) %}
+
+
+    <footer class="site-footer">
+
+
+        <!-- FOOTER TOP -->
+
+        <div class="site-footer-top">
+
+            <div class="site-footer-grid">
+
+
+                <!-- BRAND -->
+
+                <div class="site-footer-brand">
+
+                    <a
+                        href="{{ path('app_discover') }}"
+                        class="site-footer-brand-name"
+                    >
+
+                        Book My Space
+
+                    </a>
+
+
+                    <p class="site-footer-tagline">
+
+                        Spaces worth staying for.
+
+                    </p>
+
+
+                    <p class="site-footer-description">
+
+                        Book My Space connects you with rooms and spaces
+                        chosen for comfort, character and quiet reliability —
+                        wherever the day takes you.
+
+                    </p>
+
+
+                    <!-- SOCIAL -->
+
+                    <ul
+                        class="site-footer-social"
+                        aria-label="Follow Book My Space"
+                    >
+
+                        {% for social in socialLinks %}
+
+                            <li>
+
+                                <a
+                                    href="{{ social.url }}"
+                                    class="site-footer-social-link"
+                                    aria-label="{{ social.label }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+
+                                    <i
+                                        class="bi {{ social.icon }}"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </a>
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- FOOTER SECTIONS -->
+
+                {% for section in footerNavSections %}
+
+                    <nav
+                        class="site-footer-section"
+                        aria-labelledby="footer-heading-{{ section.id }}"
+                    >
+
+
+                        <!-- Mobile -->
+
+                        <button
+                            type="button"
+                            class="site-footer-section-toggle d-lg-none"
+                            id="footer-heading-{{ section.id }}"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#footer-links-{{ section.id }}"
+                            aria-expanded="true"
+                            aria-controls="footer-links-{{ section.id }}"
+                        >
+
+                            {{ section.title }}
+
+                            <i
+                                class="bi bi-chevron-down site-footer-section-caret"
+                                aria-hidden="true"
+                            ></i>
+
+                        </button>
+
+
+                        <!-- Desktop -->
+
+                        <span class="site-footer-section-title d-none d-lg-block">
+
+                            {{ section.title }}
+
+                        </span>
+
+
+                        <ul
+                            class="site-footer-links collapse show"
+                            id="footer-links-{{ section.id }}"
+                        >
+
+                            {% for link in section.links %}
+
+                                <li>
+
+                                    {% if link.route is defined and link.route is not null %}
+
+                                        <a
+                                            href="{{ path(link.route) }}"
+                                            {% if link.route == currentRoute %}
+                                                aria-current="page"
+                                            {% endif %}
+                                        >
+
+                                            {{ link.label }}
+
+                                        </a>
+
+                                    {% elseif link.url is defined %}
+
+                                        <a
+                                            href="{{ link.url }}"
+                                            {% if link.target is defined %}
+                                                target="{{ link.target }}"
+                                            {% endif %}
+                                        >
+
+                                            {{ link.label }}
+
+                                        </a>
+
+                                    {% else %}
+
+                                        {#
+                                            No route and no url => the page
+                                            doesn't exist yet. Mirrors the
+                                            navbar's "Coming Soon" treatment
+                                            instead of linking to a 404.
+                                        #}
+                                        <span
+                                            class="site-footer-link-soon"
+                                            aria-disabled="true"
+                                            title="{{ link.label }} will be available soon"
+                                        >
+
+                                            {{ link.label }}
+
+                                            <span class="site-footer-soon-badge">Soon</span>
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </nav>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FOOTER BOTTOM -->
+
+        <div class="site-footer-bottom">
+
+
+            <p class="site-footer-copyright">
+
+                &copy; {{ "now"|date("Y") }}
+
+                Book My Space.
+
+                All rights reserved.
+
+            </p>
+
+
+            <ul class="site-footer-legal">
+
+                {% for link in legalLinks %}
+
+                    <li>
+
+                        <a href="{{ link.url }}">
+
+                            {{ link.label }}
+
+                        </a>
+
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </footer>
+
+    {% endblock %}
+
+</div>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script src="{{ asset('assets/spark/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script>
+    (function () {
+        var nav = document.querySelector('.booking-navbar');
+
+        if (!nav) {
+            return;
+        }
+
+        var updateNavbarState = function () {
+            if (window.scrollY > 8) {
+                nav.classList.add('is-scrolled');
+            } else {
+                nav.classList.remove('is-scrolled');
+            }
+        };
+
+        updateNavbarState();
+        window.addEventListener('scroll', updateNavbarState, { passive: true });
+    })();
+    </script>
+
+    <script>
+    (function () {
+        var mobileFooter = window.matchMedia('(max-width: 991.98px)');
+        var sections = document.querySelectorAll('.site-footer-section');
+
+        var syncFooterSections = function () {
+            sections.forEach(function (section) {
+                var button = section.querySelector('.site-footer-section-toggle');
+                var links = section.querySelector('.site-footer-links');
+
+                if (!button || !links) {
+                    return;
+                }
+
+                if (mobileFooter.matches) {
+                    links.classList.remove('show');
+                    button.setAttribute('aria-expanded', 'false');
+                } else {
+                    links.classList.add('show');
+                    button.setAttribute('aria-expanded', 'true');
+                }
+            });
+        };
+
+        syncFooterSections();
+        mobileFooter.addEventListener('change', syncFooterSections);
+    })();
+    </script>
+
+<script>
+    // Auto-close the mobile menu after a real link is followed, so users
+    // aren't left staring at an open menu after navigating.
+    (function () {
+        var navCollapseEl = document.getElementById('booking-navigation');
+
+        if (!navCollapseEl || !window.bootstrap) {
+            return;
+        }
+
+        var bsCollapse = window.bootstrap.Collapse.getOrCreateInstance(navCollapseEl, { toggle: false });
+
+        navCollapseEl.querySelectorAll('a.booking-nav-link, a.dropdown-item').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (navCollapseEl.classList.contains('show')) {
+                    bsCollapse.hide();
+                }
+            });
+        });
+    })();
+</script>
+
+{% block javascripts %}{% endblock %}
+
+</body>
+
+</html>
