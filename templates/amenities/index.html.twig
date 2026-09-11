@@ -1,12 +1,471 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Amenities{% endblock %}
+{% block title %}Book My Space - Amenities{% endblock %}
 
 {% block body %}
+
 <style>
+.amenities-page {
+    --bg: #f8f7f4;
+    --white: #ffffff;
+    --text: #252522;
+    --muted: #77736b;
+    --line: #dedbd4;
+    --accent: #a88b57;
+
+    background: var(--bg);
+    color: var(--text);
+
+    font-family: "Helvetica Neue", Arial, sans-serif;
+
+    min-height: 100vh;
+    padding: 4rem 1.5rem 5rem;
+}
+
+.amenities-page__container {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.amenities-hero {
+    max-width: 700px;
+    margin: 0 auto 4.5rem;
+    text-align: center;
+}
+
+.amenities-hero__label {
+    margin: 0 0 .9rem;
+
+    color: var(--accent);
+
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+
+.amenities-hero__title {
+    margin: 0 0 1rem;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.7rem, 5vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1;
+
+    color: var(--text);
+}
+
+.amenities-hero__text {
+    max-width: 620px;
+    margin: 0 auto;
+
+    color: var(--muted);
+
+    font-size: .9rem;
+    line-height: 1.7;
+}
+
+.amenity-category {
+    margin-top: 3.5rem;
+}
+
+.amenity-category:first-of-type {
+    margin-top: 0;
+}
+
+.amenity-category__header {
+    display: grid;
+    grid-template-columns: 55px 1fr;
+    align-items: center;
+
+    margin-bottom: 1.2rem;
+    padding-bottom: .75rem;
+
+    border-bottom: 1px solid var(--line);
+}
+
+.amenity-category__index {
+    color: var(--accent);
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: .75rem;
+    letter-spacing: .05em;
+}
+
+.amenity-category__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+.amenity-category__title {
+    margin: 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+    line-height: 1.2;
+
+    color: var(--text);
+
+    text-transform: capitalize;
+}
+
+.amenity-category__count {
+    color: var(--muted);
+
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.amenity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    min-height: 125px;
+    padding: 1.25rem;
+
+    background: var(--white);
+    border: 1px solid var(--line);
+
+    transition:
+        border-color .25s ease,
+        transform .25s ease;
+}
+
+.amenity-item:hover {
+    border-color: rgba(168, 139, 87, .65);
+    transform: translateY(-1px);
+}
+
+.amenity-item__icon {
+    flex: 0 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    color: var(--accent);
+
+    font-size: 1rem;
+
+    transition:
+        background-color .25s ease,
+        border-color .25s ease,
+        color .25s ease;
+}
+
+.amenity-item:hover .amenity-item__icon {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.amenity-item__content {
+    min-width: 0;
+}
+
+.amenity-item__name {
+    margin: .1rem 0 .4rem;
+
+    color: var(--text);
+
+    font-size: .95rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.amenity-item__description {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: .78rem;
+    line-height: 1.6;
+}
+.amenities-empty {
+    max-width: 500px;
+    margin: 0 auto;
+
+    padding: 3.5rem 1.5rem;
+
+    text-align: center;
+
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.amenities-empty__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 50px;
+    height: 50px;
+
+    margin: 0 auto 1rem;
+
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    color: var(--accent);
+}
+
+.amenities-empty__title {
+    margin: 0 0 .5rem;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+}
+
+.amenities-empty__text {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: .85rem;
+    line-height: 1.6;
+}
+@media (max-width: 800px) {
+
+    .amenities-page {
+        padding: 3.5rem 1.25rem 4rem;
+    }
+
+    .amenity-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .amenity-item {
+        min-height: auto;
+    }
+}
+@media (max-width: 600px) {
+
+    .amenities-page {
+        padding: 3rem 1rem 4rem;
+    }
+
+    .amenities-hero {
+        margin-bottom: 3.5rem;
+    }
+
+    .amenities-hero__title {
+        font-size: 2.8rem;
+    }
+
+    .amenities-hero__text {
+        font-size: .82rem;
+        line-height: 1.65;
+    }
+
+    .amenity-category {
+        margin-top: 3rem;
+    }
+
+    .amenity-category__header {
+        grid-template-columns: 40px 1fr;
+        margin-bottom: 1rem;
+    }
+
+    .amenity-category__title {
+        font-size: 1.35rem;
+    }
+
+    .amenity-category__count {
+        display: none;
+    }
+
+    .amenity-grid {
+        gap: .75rem;
+    }
+
+    .amenity-item {
+        gap: .85rem;
+        padding: 1rem;
+    }
+
+    .amenity-item__icon {
+        width: 40px;
+        height: 40px;
+        font-size: .9rem;
+    }
+
+    .amenity-item__name {
+        font-size: .88rem;
+    }
+
+    .amenity-item__description {
+        font-size: .75rem;
+        line-height: 1.55;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+
+    .amenity-item,
+    .amenity-item__icon {
+        transition: none;
+    }
+}
 </style>
 
-<div class="main_contain">
-  <div class=""></div>
-</div>
+
+<main class="amenities-page">
+
+    <div class="amenities-page__container">
+
+
+        {# =====================================================
+           HERO
+        ===================================================== #}
+
+        <header class="amenities-hero">
+
+            <p class="amenities-hero__label">
+                Book My Space
+            </p>
+
+            <h1 class="amenities-hero__title">
+                Amenities
+            </h1>
+
+            <p class="amenities-hero__text">
+                At BookMySpace, every detail is designed to make your
+                workspace experience comfortable, productive, and effortless.
+                From high-speed Wi-Fi and professional meeting facilities
+                to refreshing coffee areas, secure access, and convenient
+                parking, everything you need is within reach.
+            </p>
+
+        </header>
+
+
+        {# =====================================================
+           DYNAMIC CATEGORIES
+        ===================================================== #}
+
+        {% if grouped_amenities is defined and grouped_amenities|length > 0 %}
+
+            {% for category, categoryAmenities in grouped_amenities %}
+
+                <section
+                    class="amenity-category"
+                    aria-labelledby="category-{{ loop.index }}"
+                >
+
+                    {# CATEGORY HEADER #}
+
+                    <div class="amenity-category__header">
+
+                        <span class="amenity-category__index">
+                            {{ '%02d'|format(loop.index) }}
+                        </span>
+
+                        <div class="amenity-category__heading">
+
+                            <h2
+                                id="category-{{ loop.index }}"
+                                class="amenity-category__title"
+                            >
+                                {{ category }}
+                            </h2>
+
+                            <span class="amenity-category__count">
+                                {{ categoryAmenities|length }}
+                                {% if categoryAmenities|length == 1 %}
+                                    amenity
+                                {% else %}
+                                    amenities
+                                {% endif %}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    {# AMENITIES #}
+
+                    <div class="amenity-grid">
+
+                        {% for amenity in categoryAmenities %}
+
+                            <article class="amenity-item">
+
+                                <span
+                                    class="amenity-item__icon"
+                                    aria-hidden="true"
+                                >
+                                    <i class="bi {{ amenity.icon }}"></i>
+                                </span>
+
+
+                                <div class="amenity-item__content">
+
+                                    <h3 class="amenity-item__name">
+                                        {{ amenity.name }}
+                                    </h3>
+
+                                    <p class="amenity-item__description">
+                                        {{ amenity.description }}
+                                    </p>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                </section>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            {# EMPTY STATE #}
+
+            <div class="amenities-empty">
+
+                <div class="amenities-empty__icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+
+                <h2 class="amenities-empty__title">
+                    Currently unavailable
+                </h2>
+
+                <p class="amenities-empty__text">
+                    Our amenities list will be back shortly.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
 {% endblock %}

@@ -4,6 +4,7 @@
 
 {% block body %}
 <style>
+.offer-card__link { display: contents; color: inherit; text-decoration: none; }
     .offers-page {
         --ivory: #f8f6f1; --paper: #fffdf9; --ink: #22201c; --muted: #706b62;
         --line: #ded8cd; --gold: #a88b57; --serif: Georgia, "Times New Roman", serif;
@@ -67,7 +68,20 @@
 
         <section class="offers-grid" aria-label="Exclusive offers">
             {% for offer in offers %}
+                {% set offer_route = offer.title == 'Double Your Productivity'
+                    ? 'app_productivity'
+                    : (offer.title == 'Team Together'
+                        ? 'app_team'
+                        : (offer.title == 'Premium Business Escape'
+                            ? 'app_business'
+                            : (offer.title == 'Private Workspace Experience'
+                                ? 'app_workspace'
+                                : (offer.title == 'Full Day, Full Focus'
+                                    ? 'app_fullday'
+                                    : (offer.title == 'Extend Your Focus' ? 'app_focus' : null)))))
+                %}
                 <article class="offer-card">
+                    {% if offer_route %}<a href="{{ path(offer_route) }}" class="offer-card__link">{% endif %}
                     <div class="offer-card__image">
                         {% if offer.image %}
                             <img src="{{ asset('assets/spark/images/' ~ offer.image) }}" alt="{{ offer.title }}">
@@ -80,6 +94,7 @@
                         <h2 class="offer-card__title">{{ offer.title }}</h2>
                         <p class="offer-card__description">{{ offer.description }}</p>
                     </div>
+                    {% if offer_route %}</a>{% endif %}
                 </article>
             {% else %}
                 <div class="offers-empty">
