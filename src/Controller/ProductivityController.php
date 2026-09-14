@@ -29,8 +29,7 @@ class ProductivityController extends AbstractController
             return 0;
         });
 
-        $discountPercentage = 15
-;
+        $discountPercentage = 15;
 
         return $this->render('productivity.html.twig', [
             'offers' => $offers,

@@ -19,26 +19,20 @@ final class FullDayController extends AbstractController
     {
         $offers = $this->offerRepository->findBy(
             ['status' => 'active'],
-            ['id' => 'ASC']
+            ['id' => 'ASC'],
         );
 
-        usort($offers, function ($a, $b) {
-            if ($a->getTitle() === 'Full Day, Full Focus') {
-                return -1;
-            }
-
-            if ($b->getTitle() === 'Full Day, Full Focus') {
-                return 1;
-            }
-
-            return 0;
+        usort($offers, static function ($first, $second): int {
+            return match (true) {
+                $first->getTitle() === 'Full Day, Full Focus' => -1,
+                $second->getTitle() === 'Full Day, Full Focus' => 1,
+                default => 0,
+            };
         });
 
-        $discountPercentage = 25;
-
-        return $this->render('fullday.html.twig', [
+        return $this->render('Fullday.html.twig', [
             'offers' => $offers,
-            'discount_percentage' => $discountPercentage,
+            'discount_percentage' => 25,
         ]);
     }
 }

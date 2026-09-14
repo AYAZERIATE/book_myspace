@@ -63,6 +63,7 @@
 
     .offer-card {
         display: flex; flex-direction: column; overflow: hidden; background: var(--paper);
+        color: inherit; text-decoration: none;
         border: 1px solid var(--line); border-radius: 2px; scroll-snap-align: start;
         flex: 0 0 clamp(260px, 31%, 400px); transition: border-color .5s ease, transform .5s ease;
     }
@@ -164,7 +165,7 @@
                 <div class="offer-carousel" aria-label="Other offers" data-carousel>
                     <div class="offer-carousel__track" data-carousel-track>
                         {% for offer in other_offers %}
-                            <article class="offer-card">
+                            <a href="{{ path('app_offer_show', {id: offer.id}) }}" class="offer-card">
                                 <div class="offer-card__image">
                                     {% if offer.image %}
                                         <img
@@ -183,7 +184,7 @@
                                     <h3 class="offer-card__title">{{ offer.title }}</h3>
                                     <p class="offer-card__description">{{ offer.description }}</p>
                                 </div>
-                            </article>
+                            </a>
                         {% endfor %}
                     </div>
 

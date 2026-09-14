@@ -4,20 +4,59 @@
 
 {% block body %}
 <style>
+    .registration-page { --ivory: #f8f6f1; --paper: #fffdf9; --ink: #22201c; --muted: #706b62; --line: #ded8cd; --gold: #a88b57; min-height: calc(100vh - 5.25rem); padding: clamp(3.5rem, 8vw, 7rem) 1.25rem; background: radial-gradient(circle at top left, rgba(168, 139, 87, .12), transparent 34rem), var(--ivory); color: var(--ink); }
+    .registration-page__inner { width: min(100%, 46rem); margin: 0 auto; }
+    .registration-eyebrow { margin: 0 0 1rem; color: var(--gold); font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; text-align: center; }
+    .registration-page h1 { margin: 0; font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(2.25rem, 6vw, 3.5rem); font-weight: 400; letter-spacing: -.035em; text-align: center; }
+    .registration-intro { max-width: 36rem; margin: 1rem auto 2.5rem; color: var(--muted); line-height: 1.7; text-align: center; }
+    .registration-card { padding: clamp(1.5rem, 5vw, 3rem); background: var(--paper); border: 1px solid var(--line); box-shadow: 0 1.25rem 3.5rem rgba(34, 32, 28, .08); }
+    .registration-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+    .registration-field { margin-bottom: 1.25rem; }
+    .registration-field--full { grid-column: 1 / -1; }
+    .registration-field label { display: block; margin-bottom: .5rem; font-size: .76rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .registration-field input { width: 100%; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: 0; background: #fff; color: var(--ink); outline: none; transition: border-color .2s ease, box-shadow .2s ease; }
+    .registration-field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(168, 139, 87, .16); }
+    .registration-submit { width: 100%; padding: .9rem 1.25rem; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+    .registration-submit:hover, .registration-submit:focus-visible { border-color: var(--gold); background: var(--gold); transform: translateY(-1px); }
+    .registration-signin { margin: 1.5rem 0 0; color: var(--muted); font-size: .9rem; text-align: center; }
+    .registration-signin a { color: var(--ink); text-decoration-color: var(--gold); text-underline-offset: .2rem; }
+    @media (max-width: 600px) { .registration-grid { grid-template-columns: 1fr; } .registration-field--full { grid-column: auto; } }
 </style>
 
-<div class="main_title">
-<p>Book My Space</p>
-<h4>Create Your Acount</h4>
-</div>
-<div class="main_form">
-<form>
-<label>First Name:</label>
-<label>Last Name:</label>
-<label>Phone:</label>
-<label>Email:</label>
-<label>Password</label>
-</form>
-</div>
-<div class=""></div>
+<main class="registration-page">
+    <div class="registration-page__inner">
+        <p class="registration-eyebrow">Book My Space</p>
+        <h1>Create your account</h1>
+        <p class="registration-intro">Join Book My Space to manage bookings and find spaces that fit your day.</p>
+
+        <div class="registration-card">
+            <form method="post" action="{{ path('app_registration_register') }}">
+                <div class="registration-grid">
+                    <div class="registration-field">
+                        <label for="first-name">First name</label>
+                        <input type="text" id="first-name" name="first_name" autocomplete="given-name" required>
+                    </div>
+                    <div class="registration-field">
+                        <label for="last-name">Last name</label>
+                        <input type="text" id="last-name" name="last_name" autocomplete="family-name" required>
+                    </div>
+                    <div class="registration-field registration-field--full">
+                        <label for="phone">Phone number</label>
+                        <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+                    </div>
+                    <div class="registration-field registration-field--full">
+                        <label for="email">Email address</label>
+                        <input type="email" id="email" name="email" autocomplete="email" required>
+                    </div>
+                    <div class="registration-field registration-field--full">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" autocomplete="new-password" minlength="8" required>
+                    </div>
+                </div>
+                <button class="registration-submit" type="submit">Create account</button>
+            </form>
+            <p class="registration-signin">Already have an account? <a href="{{ path('app_login') }}">Sign in</a></p>
+        </div>
+    </div>
+</main>
 {% endblock %}

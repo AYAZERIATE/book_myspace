@@ -29,6 +29,9 @@ class Review
     #[ORM\Column(nullable: true)]
 private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,4 +96,16 @@ private ?\DateTimeImmutable $updatedAt = null;
 
     return $this;
 }
+
+   public function getImage(): ?string
+   {
+       return $this->image;
+   }
+
+   public function setImage(string $image): static
+   {
+       $this->image = $image;
+
+       return $this;
+   }
 }

@@ -3,7 +3,9 @@
 {% block title %}Discover{% endblock %}
 
 {% block body %}
+
 <style>
+
     .discover-page {
         --discover-ivory: #f8f6f1;
         --discover-paper: #fffdf9;
@@ -11,6 +13,7 @@
         --discover-muted: #706b62;
         --discover-gold: #a88b57;
         --discover-line: #ded8cd;
+
         background: var(--discover-ivory);
         color: var(--discover-ink);
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -47,8 +50,20 @@
         line-height: .98;
     }
 
-    .discover-rule { width: 42px; height: 1px; margin: 2rem auto 1.7rem; background: var(--discover-gold); }
-    .discover-hero__lead { max-width: 620px; margin: 0 auto; color: var(--discover-muted); font-size: 1.05rem; line-height: 1.8; }
+    .discover-rule {
+        width: 42px;
+        height: 1px;
+        margin: 2rem auto 1.7rem;
+        background: var(--discover-gold);
+    }
+
+    .discover-hero__lead {
+        max-width: 620px;
+        margin: 0 auto;
+        color: var(--discover-muted);
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
 
     .discover-story {
         display: grid;
@@ -59,11 +74,39 @@
         border: 1px solid var(--discover-line);
     }
 
-    .discover-story__image { min-height: 390px; }
-    .discover-story__image img, .discover-card img, .discover-country-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .discover-story__content { display: flex; flex-direction: column; justify-content: center; padding: clamp(2.5rem, 6vw, 5.5rem); }
-    .discover-story h2 { margin: 0 0 1.25rem; font-size: clamp(2.2rem, 4vw, 3.7rem); letter-spacing: -.03em; line-height: 1.05; }
-    .discover-story p { margin: 0; color: var(--discover-muted); line-height: 1.85; }
+    .discover-story__image {
+        min-height: 390px;
+    }
+
+    .discover-story__image img,
+    .discover-card img,
+    .discover-country-card img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .discover-story__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(2.5rem, 6vw, 5.5rem);
+    }
+
+    .discover-story h2 {
+        margin: 0 0 1.25rem;
+        font-size: clamp(2.2rem, 4vw, 3.7rem);
+        letter-spacing: -.03em;
+        line-height: 1.05;
+    }
+
+    .discover-story p {
+        margin: 0;
+        color: var(--discover-muted);
+        line-height: 1.85;
+    }
+
     .discover-story__button {
         align-self: flex-start;
         margin-top: 2rem;
@@ -80,6 +123,7 @@
         text-transform: uppercase;
         transition: background .35s ease, border-color .35s ease, color .35s ease;
     }
+
     .discover-story__button:hover,
     .discover-story__button:focus-visible {
         background: var(--discover-gold);
@@ -87,28 +131,80 @@
         color: #fffdf9;
     }
 
-    .discover-explore, .discover-countries { max-width: 1320px; margin: 0 auto; padding: clamp(4.5rem, 9vw, 8rem) 1.5rem; }
-    .discover-explore { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 2.5rem); }
-    .discover-card { overflow: hidden; background: var(--discover-paper); border: 1px solid var(--discover-line); }
-    .discover-card__image { aspect-ratio: 3 / 2; overflow: hidden; }
-    .discover-card img { transition: transform .6s ease; }
-    .discover-card:hover img { transform: scale(1.035); }
-    .discover-card__content { padding: clamp(1.75rem, 3vw, 2.5rem); }
-    .discover-card h2 { margin: 0 0 .8rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.65rem, 2.8vw, 2.2rem); font-weight: 400; }
-    .discover-card a { color: inherit; text-decoration: none; }
-    .discover-card a:hover { color: var(--discover-gold); }
-    .discover-card p { margin: 0; color: var(--discover-muted); line-height: 1.75; }
+    .discover-explore,
+    .discover-countries {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: clamp(4.5rem, 9vw, 8rem) 1.5rem;
+    }
+
+    .discover-explore {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .discover-card {
+        overflow: hidden;
+        background: var(--discover-paper);
+        border: 1px solid var(--discover-line);
+    }
+
+    .discover-card__image {
+        aspect-ratio: 3 / 2;
+        overflow: hidden;
+    }
+
+    .discover-card img {
+        transition: transform .6s ease;
+    }
+
+    .discover-card:hover img {
+        transform: scale(1.035);
+    }
+
+    .discover-card__content {
+        padding: clamp(1.75rem, 3vw, 2.5rem);
+    }
+
+    .discover-card h2 {
+        margin: 0 0 .8rem;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.65rem, 2.8vw, 2.2rem);
+        font-weight: 400;
+    }
+
+    .discover-card a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .discover-card a:hover {
+        color: var(--discover-gold);
+    }
+
+    .discover-card p {
+        margin: 0;
+        color: var(--discover-muted);
+        line-height: 1.75;
+    }
+
+    /* =========================
+       REVIEWS
+    ========================= */
 
     .discover-reviews {
         max-width: 1320px;
         margin: 0 auto;
         padding: 0 1.5rem clamp(4.5rem, 9vw, 8rem);
     }
+
     .discover-reviews__header {
         max-width: 640px;
         margin: 0 auto 2.75rem;
         text-align: center;
     }
+
     .discover-reviews__header h2 {
         margin: 0 0 1rem;
         font-family: Georgia, "Times New Roman", serif;
@@ -116,33 +212,79 @@
         font-weight: 400;
         letter-spacing: -.03em;
     }
-    .discover-reviews__header p { margin: 0; color: var(--discover-muted); line-height: 1.75; }
-    .discover-review-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.75rem); }
+
+    .discover-reviews__header p {
+        margin: 0;
+        color: var(--discover-muted);
+        line-height: 1.75;
+    }
+
+    .discover-review-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(1rem, 2vw, 1.75rem);
+    }
+
     .discover-review-card {
         display: flex;
         min-width: 0;
-        flex-direction: column;
         min-height: 220px;
         padding: clamp(1.5rem, 3vw, 2.25rem);
         background: var(--discover-paper);
         border: 1px solid var(--discover-line);
     }
+
+    .discover-review-card__top {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    /* Small circular review image */
+    .discover-review-card__image {
+        flex: 0 0 64px;
+        width: 64px;
+        height: 64px;
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    .discover-review-card__image img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .discover-review-card__body {
+        display: flex;
+        flex: 1;
+        min-width: 0;
+        flex-direction: column;
+    }
+
     .discover-review-stars {
         display: flex;
         gap: .2rem;
-        margin-bottom: 1.5rem;
+        margin: 0 0 .9rem;
         color: var(--discover-gold);
         font-size: .9rem;
         letter-spacing: .04em;
     }
-    .discover-review-stars__empty { color: #d7d0c4; }
+
+    .discover-review-stars__empty {
+        color: #d7d0c4;
+    }
+
     .discover-review-comment {
         margin: 0;
         color: var(--discover-ink);
         font-family: Georgia, "Times New Roman", serif;
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         line-height: 1.55;
     }
+
     .discover-review-empty {
         grid-column: 1 / -1;
         padding: 3rem 1.5rem;
@@ -152,93 +294,268 @@
         text-align: center;
     }
 
-    .discover-countries { padding-top: 0; text-align: center; }
-    .discover-countries h2 { margin: 0 0 2.5rem; font-size: clamp(2.1rem, 4vw, 3.4rem); letter-spacing: -.03em; }
-    .discover-country-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.75rem); }
-    .discover-country-card { aspect-ratio: 4 / 5; overflow: hidden; }
-    .discover-country-card img { transition: transform .6s ease; }
-    .discover-country-card:hover img { transform: scale(1.035); }
+    /* =========================
+       RESPONSIVE
+    ========================= */
 
     @media (max-width: 767.98px) {
-        .discover-story, .discover-explore { grid-template-columns: 1fr; }
-        .discover-review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .discover-story__image { min-height: 290px; }
-        .discover-country-grid { gap: .75rem; }
+
+        .discover-story,
+        .discover-explore {
+            grid-template-columns: 1fr;
+        }
+
+        .discover-review-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .discover-story__image {
+            min-height: 290px;
+        }
+
+        .discover-country-grid {
+            gap: .75rem;
+        }
     }
-    @media (max-width: 520px) { .discover-review-grid { grid-template-columns: 1fr; } }
-    @media (prefers-reduced-motion: reduce) { .discover-card img, .discover-country-card img { transition: none; } }
+
+    @media (max-width: 520px) {
+
+        .discover-review-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .discover-review-card__image {
+            flex: 0 0 54px;
+            width: 54px;
+            height: 54px;
+        }
+
+        .discover-review-card__top {
+            gap: .8rem;
+        }
+
+        .discover-review-comment {
+            font-size: 1.05rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .discover-card img,
+        .discover-country-card img {
+            transition: none;
+        }
+    }
+
 </style>
 
 <main class="discover-page">
+
     <header class="discover-hero">
-        <p class="discover-eyebrow">Book My Space</p>
-        <h1>Make every workspace experience unforgettable.</h1>
+
+        <p class="discover-eyebrow">
+            Book My Space
+        </p>
+
+        <h1>
+            Make every workspace experience unforgettable.
+        </h1>
+
         <div class="discover-rule" aria-hidden="true"></div>
-        <p class="discover-hero__lead">Discover places designed for focus, connection, comfort, and the work that matters most.</p>
+
+        <p class="discover-hero__lead">
+            Discover places designed for focus, connection, comfort,
+            and the work that matters most.
+        </p>
+
     </header>
 
+
     <section class="discover-story">
+
         <div class="discover-story__image">
-            <img src="{{ asset('assets/spark/images/discover_1.jpg') }}" alt="A welcoming Book My Space workspace">
+
+            <img
+                src="{{ asset('assets/spark/images/discover_1.jpg') }}"
+                alt="A welcoming Book My Space workspace"
+            >
+
         </div>
+
         <div class="discover-story__content">
-            <h2>Welcome to Book My Space</h2>
-            <p>From inspiring workspaces in the heart of the city to thoughtfully designed rooms made for connection and creativity, Book My Space invites you to discover a new way of working, where comfort meets productivity and every space has its own character.</p>
-            <a class="discover-story__button" href="{{ path('app_story') }}">Discover Our Story</a>
+
+            <h2>
+                Welcome to Book My Space
+            </h2>
+
+            <p>
+                From inspiring workspaces in the heart of the city to
+                thoughtfully designed rooms made for connection and creativity,
+                Book My Space invites you to discover a new way of working,
+                where comfort meets productivity and every space has its own character.
+            </p>
+
+            <a
+                class="discover-story__button"
+                href="{{ path('app_story') }}"
+            >
+                Discover Our Story
+            </a>
+
         </div>
+
     </section>
 
-    <section class="discover-explore" aria-label="Explore Book My Space">
-        <article class="discover-card">
-            <div class="discover-card__image">
-                <img src="{{ asset('assets/spark/images/discover_2.jpg') }}" alt="Discover our places">
-            </div>
-            <div class="discover-card__content">
-                <h2><a href="{{ path('app_rooms') }}">Discover our places →</a></h2>
-                <p>Discover our growing collection of inspiring places.</p>
-            </div>
-        </article>
+
+    <section
+        class="discover-explore"
+        aria-label="Explore Book My Space"
+    >
 
         <article class="discover-card">
+
             <div class="discover-card__image">
-                <img src="{{ asset('assets/spark/images/discover_3.jpg') }}" alt="Discover our amenities">
+
+                <img
+                    src="{{ asset('assets/spark/images/discover_3.jpg') }}"
+                    alt="Discover our places"
+                >
+
             </div>
+
             <div class="discover-card__content">
-                <h2><a href="{{ path('app_amenities') }}">Discover our amenities →</a></h2>
-                <p>From high-speed Wi-Fi to comfortable lounges, discover everything designed around your experience.</p>
+
+                <h2>
+                    <a href="{{ path('app_rooms') }}">
+                        Discover our places →
+                    </a>
+                </h2>
+
+                <p>
+                    Discover our growing collection of inspiring places.
+                </p>
+
             </div>
+
         </article>
+
+
+        <article class="discover-card">
+
+            <div class="discover-card__image">
+
+                <img
+                    src="{{ asset('assets/spark/images/discover_2.jpg') }}"
+                    alt="Discover our amenities"
+                >
+
+            </div>
+
+            <div class="discover-card__content">
+
+                <h2>
+                    <a href="{{ path('app_amenities') }}">
+                        Discover our amenities →
+                    </a>
+                </h2>
+
+                <p>
+                    From high-speed Wi-Fi to comfortable lounges,
+                    discover everything designed around your experience.
+                </p>
+
+            </div>
+
+        </article>
+
     </section>
 
-    <section class="discover-reviews" aria-labelledby="discover-reviews-heading">
+
+    <section
+        class="discover-reviews"
+        aria-labelledby="discover-reviews-heading"
+    >
+
         <header class="discover-reviews__header">
-            <h2 id="discover-reviews-heading">What our guests say</h2>
-            <p>Thoughtful feedback from people who have experienced Book My Space.</p>
+
+            <h2 id="discover-reviews-heading">
+                What our guests say
+            </h2>
+
+            <p>
+                Thoughtful feedback from people who have experienced
+                Book My Space.
+            </p>
+
         </header>
 
+
         <div class="discover-review-grid">
+
             {% for review in reviews %}
+
                 <article class="discover-review-card">
-                    <div class="discover-review-stars" aria-label="{{ review.rating }} out of 5 stars">
-                        {% for star in 1..5 %}
-                            <span{% if star > review.rating %} class="discover-review-stars__empty"{% endif %} aria-hidden="true">★</span>
-                        {% endfor %}
+
+                    <div class="discover-review-card__top">
+
+                        {% if review.image %}
+
+                            <div class="discover-review-card__image">
+
+                                <img
+                                    src="{{ asset('assets/spark/images/' ~ review.image) }}"
+                                    alt="Guest review"
+                                    loading="lazy"
+                                >
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="discover-review-card__body">
+
+                            <div
+                                class="discover-review-stars"
+                                aria-label="{{ review.rating }} out of 5 stars"
+                            >
+
+                                {% for star in 1..5 %}
+
+                                    <span
+                                        {% if star > review.rating %}
+                                            class="discover-review-stars__empty"
+                                        {% endif %}
+                                        aria-hidden="true"
+                                    >★</span>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <p class="discover-review-comment">
+                                “{{ review.comment }}”
+                            </p>
+
+                        </div>
+
                     </div>
-                    <p class="discover-review-comment">“{{ review.comment }}”</p>
+
                 </article>
+
             {% else %}
-                <p class="discover-review-empty">Guest reviews will appear here soon.</p>
+
+                <p class="discover-review-empty">
+                    Guest reviews will appear here soon.
+                </p>
+
             {% endfor %}
+
         </div>
+
     </section>
 
-    <section class="discover-countries">
-        <h2>Explore Book My Space</h2>
-        <div class="discover-country-grid">
-            <div class="discover-country-card"><img src="{{ asset('assets/spark/images/discover_3.jpg') }}" alt="Book My Space location"></div>
-            <div class="discover-country-card"><img src="{{ asset('assets/spark/images/discover_4.jpg') }}" alt="Book My Space location"></div>
-            <div class="discover-country-card"><img src="{{ asset('assets/spark/images/discover_5.jpg') }}" alt="Book My Space location"></div>
-        </div>
-    </section>
 </main>
+
 {% endblock %}

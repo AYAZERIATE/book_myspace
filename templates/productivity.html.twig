@@ -66,6 +66,11 @@
         border: 1px solid var(--line); border-radius: 2px; scroll-snap-align: start;
         flex: 0 0 clamp(260px, 31%, 400px); transition: border-color .5s ease, transform .5s ease;
     }
+    .offer-card-link {
+        flex: 0 0 clamp(260px, 31%, 400px); color: inherit; scroll-snap-align: start;
+        text-decoration: none;
+    }
+    .offer-card-link .offer-card { height: 100%; }
     .offer-card:hover { border-color: rgba(168, 139, 87, .7); transform: translateY(-3px); }
     .offer-card__image { position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: #e7e0d4; }
     .offer-card__image::after {
@@ -105,11 +110,11 @@
     .offers-empty__title { margin: 0 0 .85rem; font-family: var(--serif); font-size: 2rem; font-weight: 400; }
     .offers-empty__text { margin: 0; color: var(--muted); line-height: 1.7; }
 
-    @media (max-width: 991.98px) { .offer-card { flex-basis: 46%; } }
+    @media (max-width: 991.98px) { .offer-card, .offer-card-link { flex-basis: 46%; } }
     @media (max-width: 640px) {
         .productivity-page { padding-right: 1.1rem; padding-left: 1.1rem; }
         .productivity-features { grid-template-columns: 1fr; }
-        .offer-card { flex-basis: 82%; }
+        .offer-card, .offer-card-link { flex-basis: 82%; }
     }
     @media (prefers-reduced-motion: reduce) { .offer-card, .offer-card__image img { transition: none; } }
 </style>
@@ -150,11 +155,14 @@
             {% endif %}
         </header>
 
-        {# Filter FIRST, then check the filtered length — this is the fix.
-           Previously the length check ran on the raw `offers` collection, so if
-           that collection only contained the productivity offer itself, the
-           "unavailable" message never showed and the grid rendered empty. #}
         {% set other_offers = offers is defined ? offers|filter(o => o.title != 'Double Your Productivity') : [] %}
+        {% set offer_routes = {
+            'Team Together': 'app_team',
+            'Premium Business Escape': 'app_business',
+            'Private Workspace Experience': 'app_workspace',
+            'Full Day, Full Focus': 'app_fullday',
+            'Extend Your Focus': 'app_focus'
+        } %}
 
         <section class="offer-carousel-section">
             <h2 class="offer-carousel-section__title">Our Other Offers</h2>
@@ -162,28 +170,40 @@
             {% if other_offers|length > 0 %}
                 <div class="offer-carousel" aria-label="Other offers" data-carousel>
                     <div class="offer-carousel__track" data-carousel-track>
-                        {% for offer in other_offers %}
-                            <article class="offer-card">
-                                <div class="offer-card__image">
-                                    {% if offer.image %}
-                                        <img
-                                            src="{{ asset('assets/spark/images/' ~ offer.image) }}"
-                                            alt="{{ offer.title }}"
-                                            loading="lazy"
-                                            onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='grid';"
-                                        >
-                                        <div class="offer-card__placeholder" aria-hidden="true" style="display:none;"></div>
-                                    {% else %}
-                                        <div class="offer-card__placeholder" aria-hidden="true"></div>
-                                    {% endif %}
-                                </div>
-                                <div class="offer-card__content">
-                                    <span class="offer-card__marker">Exclusive offer</span>
-                                    <h3 class="offer-card__title">{{ offer.title }}</h3>
-                                    <p class="offer-card__description">{{ offer.description }}</p>
-                                </div>
-                            </article>
-                        {% endfor %}
+                    {% for offer in other_offers %}
+    <a href="{{ path(offer_routes[offer.title]|default('app_offers')) }}" class="offer-card-link">
+        <article class="offer-card">
+
+            <div class="offer-card__image">
+                {% if offer.image %}
+                    <img 
+                        src="{{ asset('assets/spark/images/' ~ offer.image) }}" 
+                        alt="{{ offer.title }}" 
+                        loading="lazy"
+                        onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='grid';"
+                    >
+                    <div class="offer-card__placeholder" aria-hidden="true" style="display:none;"></div>
+                {% else %}
+                    <div class="offer-card__placeholder" aria-hidden="true"></div>
+                {% endif %}
+            </div>
+
+            <div class="offer-card__content">
+                <span class="offer-card__marker">Exclusive offer</span>
+
+                <h3 class="offer-card__title">
+                    {{ offer.title }}
+                </h3>
+
+                <p class="offer-card__description">
+                    {{ offer.description }}
+                </p>
+            </div>
+
+        </article>
+    </a>
+{% endfor %}
+
                     </div>
 
                     <div class="offer-carousel__controls">

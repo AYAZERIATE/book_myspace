@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\OffersRepository;
+use App\Repository\OfferRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: OffersRepository::class)]
+#[ORM\Entity(repositoryClass: OfferRepository::class)]
 class Offers
 {
     #[ORM\Id]

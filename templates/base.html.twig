@@ -805,7 +805,7 @@
         }
 
         /* Logged-out state: Sign In / Create Account, shown instead of
-           the profile avatar. Disabled look until real auth routes exist. */
+           the profile avatar. */
         .booking-auth-links {
             display: flex;
             align-items: center;
@@ -820,7 +820,8 @@
             font-size: 0.8rem;
             letter-spacing: 0.03em;
             text-transform: uppercase;
-            cursor: default;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .booking-auth-link--primary {
@@ -952,32 +953,14 @@
     {% set displayName = isAuthenticated ? app.user.userIdentifier : 'Guest' %}
     {% set isAdmin = isAuthenticated and app.user.roles is defined and 'ROLE_ADMIN' in app.user.roles %}
 
-    {#
-        ============================================================
-        CENTRALIZED NAVIGATION DATA
-        ============================================================
-        Add a new page to the navbar by adding ONE line below —
-        no other template changes are needed. The footer's "Explore"
-        column is generated from this same list further down, so a
-        page added here shows up in both places automatically.
-
-        route: null  => the page has no route yet, so it renders as a
-                         disabled "Coming Soon" item instead of a broken link
-                         (in both the navbar and the footer).
-                         Fill in the real route name here once it exists.
-
-        Once the list grows past `maxPrimaryNavItems`, the extra items
-        automatically collapse into the "Explore" dropdown so the bar
-        never gets crowded — nothing else needs to change when that
-        threshold is crossed.
-    #}
+  
+   
     {% set navigationItems = [
         { label: 'Discover',      route: 'app_discover' },
         { label: 'Rooms',         route: 'app_rooms' },
         { label: 'Amenities',     route: 'app_amenities' },
         { label: 'Offers',        route: 'app_offers' },
-        { label: 'Guest Reviews', route: null },
-        { label: 'Reservations',  route: null }
+    
     ] %}
     {% set maxPrimaryNavItems = 5 %}
 
@@ -991,28 +974,8 @@
         {% endif %}
     {% endfor %}
 
-    {#
-        Account-scoped links, shown inside the profile dropdown only
-        when a user is authenticated. Same route:null => Coming Soon
-        convention as above.
-    #}
-    {% set accountNavItems = [
-        { label: 'Profile',         route: null, icon: 'bi-person' },
-        { label: 'My Reservations', route: null, icon: 'bi-calendar-check' },
-        { label: 'Favorites',       route: null, icon: 'bi-heart' }
-    ] %}
-
-    {#
-        Admin-only links. This whole block is skipped entirely unless
-        isAdmin is true — normal users never see it rendered at all,
-        not even as disabled markup.
-    #}
-    {% set adminNavItems = [
-        { label: 'Admin Dashboard',     route: null },
-        { label: 'Manage Rooms',        route: null },
-        { label: 'Manage Offers',       route: null },
-        { label: 'Manage Reservations', route: null }
-    ] %}
+   
+  
 
     <header class="booking-navbar">
         <div class="booking-navbar-inner">
@@ -1116,8 +1079,8 @@
                     </div>
                 {% else %}
                     <div class="booking-auth-links">
-                        <span class="booking-auth-link" aria-disabled="true" title="Sign in will be available soon">Sign In</span>
-                        <span class="booking-auth-link booking-auth-link--primary" aria-disabled="true" title="Account creation will be available soon">Create Account</span>
+                        <a class="booking-auth-link" href="{{ path('app_login') }}">Sign In</a>
+                        <a class="booking-auth-link booking-auth-link--primary" href="{{ path('app_registration') }}">Create Account</a>
                     </div>
                 {% endif %}
 
@@ -1129,10 +1092,6 @@
 
 
 
-    <!-- =====================================================
-         PREMIUM FOOTER
-    ====================================================== -->
-
     {% block footer %}
 
     {% set isAuthenticated = app.user is not null %}
@@ -1140,13 +1099,7 @@
     {% set currentRoute = app.request.attributes.get('_route') %}
 
 
-    {#
-        The "Explore" footer column is generated straight from
-        navigationItems (defined above, next to the navbar) instead of
-        its own hardcoded list. That's the "single source of truth" for
-        site navigation: add/rename/reorder a page once, up top, and both
-        the navbar and the footer pick it up automatically.
-    #}
+  
     {% set exploreFooterLinks = [] %}
     {% for item in navigationItems %}
         {% set exploreFooterLinks = exploreFooterLinks|merge([{ label: item.label, route: item.route }]) %}
@@ -1205,28 +1158,15 @@
 
 
         {
-            id: 'support',
-            title: 'Support',
-
-            links: [
-
-                {
-                    label: 'Help Center',
-                    url: '#'
-                },
-
-                {
-                    label: 'Contact Us',
-                    url: '#'
-                },
-
-                {
-                    label: 'Concierge',
-                    url: '#'
-                }
-
-            ]
+    id: 'support',
+    title: 'Support',
+    links: [
+        {
+            label: 'Help Center',
+            route: 'app_help'
         }
+    ]
+}
 
     ]) %}
 

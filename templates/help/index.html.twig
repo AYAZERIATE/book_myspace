@@ -1,0 +1,1196 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Help Center{% endblock %}
+
+{% block body %}
+
+<style>
+    /* =========================================================
+       BOOK MY SPACE — HELP CENTER
+       ========================================================= */
+
+    .help-page {
+        background: #fffdf9;
+        color: #22201c;
+        min-height: 100vh;
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .help-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 110px 24px 90px;
+        background:
+            linear-gradient(
+                135deg,
+                rgba(199, 168, 109, 0.16),
+                rgba(255, 253, 249, 0.96) 48%,
+                rgba(248, 244, 236, 0.95)
+            );
+        border-bottom: 1px solid rgba(34, 32, 28, 0.08);
+    }
+
+    .help-hero::before {
+        content: "";
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        background: rgba(199, 168, 109, 0.10);
+        top: -180px;
+        right: -100px;
+        pointer-events: none;
+    }
+
+    .help-hero::after {
+        content: "";
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: rgba(168, 139, 87, 0.07);
+        bottom: -140px;
+        left: -80px;
+        pointer-events: none;
+    }
+
+    .help-hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 850px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .help-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 18px;
+        color: #a88b57;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.20em;
+        text-transform: uppercase;
+    }
+
+    .help-eyebrow::before,
+    .help-eyebrow::after {
+        content: "";
+        width: 28px;
+        height: 1px;
+        background: #c7a86d;
+    }
+
+    .help-title {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(42px, 6vw, 72px);
+        font-weight: 400;
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+        color: #22201c;
+    }
+
+    .help-title span {
+        color: #a88b57;
+        font-style: italic;
+    }
+
+    .help-description {
+        max-width: 650px;
+        margin: 22px auto 34px;
+        color: #77736b;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    /* =========================================================
+       SEARCH
+       ========================================================= */
+
+    .help-search-wrapper {
+        max-width: 680px;
+        margin: 0 auto;
+    }
+
+    .help-search {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        border: 1px solid rgba(34, 32, 28, 0.12);
+        border-radius: 4px;
+        box-shadow: 0 18px 45px rgba(34, 32, 28, 0.08);
+        transition: all 0.25s ease;
+    }
+
+    .help-search:focus-within {
+        border-color: rgba(199, 168, 109, 0.75);
+        box-shadow: 0 20px 50px rgba(34, 32, 28, 0.11);
+    }
+
+    .help-search-icon {
+        flex-shrink: 0;
+        margin-left: 20px;
+        color: #a88b57;
+        font-size: 20px;
+    }
+
+    .help-search input {
+        width: 100%;
+        min-width: 0;
+        padding: 19px 18px;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: #22201c;
+        font-size: 15px;
+    }
+
+    .help-search input::placeholder {
+        color: #aaa59b;
+    }
+
+    .help-search-button {
+        flex-shrink: 0;
+        margin-right: 7px;
+        padding: 12px 20px;
+        border: 0;
+        border-radius: 3px;
+        background: #22201c;
+        color: #fffdf9;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    .help-search-button:hover {
+        background: #a88b57;
+        transform: translateY(-1px);
+    }
+
+    /* =========================================================
+       MAIN CONTENT
+       ========================================================= */
+
+    .help-content {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 85px 24px 100px;
+    }
+
+    .help-section-header {
+        margin-bottom: 35px;
+        text-align: center;
+    }
+
+    .help-section-label {
+        margin-bottom: 10px;
+        color: #a88b57;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+    }
+
+    .help-section-title {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 38px;
+        font-weight: 400;
+        color: #22201c;
+    }
+
+    .help-section-description {
+        max-width: 620px;
+        margin: 12px auto 0;
+        color: #77736b;
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+    /* =========================================================
+       CATEGORIES
+       ========================================================= */
+
+    .help-categories {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 95px;
+    }
+
+    .help-category {
+        display: flex;
+        flex-direction: column;
+        min-height: 205px;
+        padding: 28px;
+        background: #ffffff;
+        border: 1px solid rgba(34, 32, 28, 0.08);
+        text-decoration: none;
+        color: inherit;
+        transition:
+            transform 0.3s ease,
+            border-color 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .help-category:hover {
+        transform: translateY(-5px);
+        border-color: rgba(199, 168, 109, 0.55);
+        box-shadow: 0 18px 40px rgba(34, 32, 28, 0.08);
+        color: inherit;
+    }
+
+    .help-category-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 22px;
+        border: 1px solid rgba(199, 168, 109, 0.35);
+        border-radius: 50%;
+        background: #fffdf9;
+        color: #a88b57;
+        font-size: 20px;
+    }
+
+    .help-category-title {
+        margin: 0 0 9px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 22px;
+        font-weight: 400;
+    }
+
+    .help-category-text {
+        margin: 0;
+        color: #77736b;
+        font-size: 13px;
+        line-height: 1.65;
+    }
+
+    .help-category-arrow {
+        margin-top: auto;
+        padding-top: 20px;
+        color: #a88b57;
+        font-size: 14px;
+    }
+
+    /* =========================================================
+       FAQ
+       ========================================================= */
+
+    .help-faq-section {
+        max-width: 850px;
+        margin: 0 auto 100px;
+    }
+
+    .help-faq-list {
+        border-top: 1px solid rgba(34, 32, 28, 0.10);
+    }
+
+    .help-faq-item {
+        border-bottom: 1px solid rgba(34, 32, 28, 0.10);
+    }
+
+    .help-faq-button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 22px 4px;
+        border: 0;
+        background: transparent;
+        color: #22201c;
+        text-align: left;
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .help-faq-button:hover {
+        color: #a88b57;
+    }
+
+    .help-faq-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid rgba(199, 168, 109, 0.45);
+        border-radius: 50%;
+        color: #a88b57;
+        font-size: 14px;
+        transition: transform 0.25s ease;
+    }
+
+    .help-faq-button[aria-expanded="true"] .help-faq-icon {
+        transform: rotate(45deg);
+    }
+
+    .help-faq-answer {
+        display: none;
+        padding: 0 52px 23px 4px;
+        color: #77736b;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .help-faq-answer.is-open {
+        display: block;
+    }
+
+    /* =========================================================
+       CONTACT
+       ========================================================= */
+
+    .help-contact {
+        position: relative;
+        overflow: hidden;
+        padding: 55px 45px;
+        background: #22201c;
+        color: #fffdf9;
+    }
+
+    .help-contact::after {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        right: -120px;
+        top: -150px;
+        border-radius: 50%;
+        border: 1px solid rgba(199, 168, 109, 0.25);
+    }
+
+    .help-contact-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    .help-contact-label {
+        margin-bottom: 9px;
+        color: #c7a86d;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+    }
+
+    .help-contact-title {
+        margin: 0 0 10px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 34px;
+        font-weight: 400;
+    }
+
+    .help-contact-text {
+        max-width: 570px;
+        margin: 0;
+        color: rgba(255, 253, 249, 0.68);
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .help-contact-actions {
+        display: flex;
+        flex-shrink: 0;
+        gap: 10px;
+    }
+
+    .help-contact-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 13px 21px;
+        border: 1px solid #c7a86d;
+        border-radius: 3px;
+        background: #c7a86d;
+        color: #22201c;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        transition: all 0.25s ease;
+    }
+
+    .help-contact-button:hover {
+        background: #fffdf9;
+        border-color: #fffdf9;
+        color: #22201c;
+    }
+
+    .help-contact-button.secondary {
+        background: transparent;
+        color: #fffdf9;
+    }
+
+    .help-contact-button.secondary:hover {
+        background: rgba(255, 253, 249, 0.08);
+        border-color: #fffdf9;
+        color: #fffdf9;
+    }
+
+    /* =========================================================
+       NO SEARCH RESULTS
+       ========================================================= */
+
+    .help-no-results {
+        display: none;
+        padding: 30px;
+        margin-top: 20px;
+        text-align: center;
+        border: 1px solid rgba(34, 32, 28, 0.08);
+        background: #ffffff;
+        color: #77736b;
+    }
+
+    .help-no-results.is-visible {
+        display: block;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 900px) {
+        .help-categories {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .help-contact-inner {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .help-hero {
+            padding: 80px 18px 65px;
+        }
+
+        .help-title {
+            font-size: 42px;
+        }
+
+        .help-description {
+            font-size: 14px;
+        }
+
+        .help-search {
+            display: block;
+            padding: 5px;
+        }
+
+        .help-search-icon {
+            display: none;
+        }
+
+        .help-search input {
+            display: block;
+            padding: 15px 12px;
+        }
+
+        .help-search-button {
+            width: 100%;
+            margin: 0;
+        }
+
+        .help-content {
+            padding: 65px 18px 75px;
+        }
+
+        .help-categories {
+            grid-template-columns: 1fr;
+            margin-bottom: 70px;
+        }
+
+        .help-section-title {
+            font-size: 31px;
+        }
+
+        .help-contact {
+            padding: 38px 25px;
+        }
+
+        .help-contact-title {
+            font-size: 29px;
+        }
+
+        .help-contact-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .help-contact-button {
+            width: 100%;
+        }
+
+        .help-faq-answer {
+            padding-right: 20px;
+        }
+    }
+</style>
+
+<div class="help-page">
+
+    {# =====================================================
+       HERO
+       ===================================================== #}
+
+    <section class="help-hero">
+
+        <div class="help-hero-content">
+
+            <div class="help-eyebrow">
+                Book My Space
+            </div>
+
+            <h1 class="help-title">
+                How can we <span>help?</span>
+            </h1>
+
+            <p class="help-description">
+                Find answers to your questions about reservations, rooms,
+                payments, amenities and everything you need for a seamless
+                Book My Space experience.
+            </p>
+
+            <div class="help-search-wrapper">
+
+                <form
+                    class="help-search"
+                    id="helpSearchForm"
+                    onsubmit="return false;"
+                >
+
+                    <i class="bi bi-search help-search-icon"></i>
+
+                    <input
+                        type="search"
+                        id="helpSearch"
+                        placeholder="Search for a question or topic..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="submit"
+                        class="help-search-button"
+                    >
+                        Search
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {# =====================================================
+       CONTENT
+       ===================================================== #}
+
+    <main class="help-content">
+
+        {# =================================================
+           CATEGORIES
+           ================================================= #}
+
+        <section>
+
+            <div class="help-section-header">
+
+                <div class="help-section-label">
+                    Explore
+                </div>
+
+                <h2 class="help-section-title">
+                    Help topics
+                </h2>
+
+                <p class="help-section-description">
+                    Browse our most common topics and find the information
+                    you need quickly.
+                </p>
+
+            </div>
+
+
+            <div class="help-categories">
+
+                <a href="#faq-reservations"
+                   class="help-category">
+
+                    <div class="help-category-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                    <h3 class="help-category-title">
+                        Reservations
+                    </h3>
+
+                    <p class="help-category-text">
+                        Learn how to make, manage and understand your
+                        reservation.
+                    </p>
+
+                    <div class="help-category-arrow">
+                        Explore topic
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-booking"
+                   class="help-category">
+
+                    <div class="help-category-icon">
+                        <i class="bi bi-journal-check"></i>
+                    </div>
+
+                    <h3 class="help-category-title">
+                        Manage Your Booking
+                    </h3>
+
+                    <p class="help-category-text">
+                        Find information about changing or cancelling
+                        your booking.
+                    </p>
+
+                    <div class="help-category-arrow">
+                        Explore topic
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-rooms"
+                   class="help-category">
+
+                    <div class="help-category-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <h3 class="help-category-title">
+                        Rooms & Spaces
+                    </h3>
+
+                    <p class="help-category-text">
+                        Discover room types, capacities and available
+                        workspace options.
+                    </p>
+
+                    <div class="help-category-arrow">
+                        Explore topic
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-payment"
+                   class="help-category">
+
+                    <div class="help-category-icon">
+                        <i class="bi bi-credit-card"></i>
+                    </div>
+
+                    <h3 class="help-category-title">
+                        Payments & Pricing
+                    </h3>
+
+                    <p class="help-category-text">
+                        Get help with pricing, payments and booking charges.
+                    </p>
+
+                    <div class="help-category-arrow">
+                        Explore topic
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-stay"
+                   class="help-category">
+
+                    <div class="help-category-icon">
+                        <i class="bi bi-clock"></i>
+                    </div>
+
+                    <h3 class="help-category-title">
+                        Check-in & Check-out
+                    </h3>
+
+                    <p class="help-category-text">
+                        Learn about arrival, departure and your stay
+                        experience.
+                    </p>
+
+                    <div class="help-category-arrow">
+                        Explore topic
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-amenities"
+                   class="help-category">
+
+                    <div class="help-category-icon">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                    <h3 class="help-category-title">
+                        Amenities & Services
+                    </h3>
+
+                    <p class="help-category-text">
+                        Learn more about the facilities and services
+                        available to guests.
+                    </p>
+
+                    <div class="help-category-arrow">
+                        Explore topic
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        {# =================================================
+           FAQ
+           ================================================= #}
+
+        <section class="help-faq-section">
+
+            <div class="help-section-header">
+
+                <div class="help-section-label">
+                    Frequently Asked
+                </div>
+
+                <h2 class="help-section-title">
+                    Popular questions
+                </h2>
+
+                <p class="help-section-description">
+                    Quick answers to some of the questions our guests ask
+                    most often.
+                </p>
+
+            </div>
+
+
+            <div class="help-faq-list" id="helpFaqList">
+
+                <div class="help-faq-item"
+                     data-category="reservations">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            How do I make a reservation?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Choose the room or space that suits your needs,
+                        select your preferred date and time, then follow
+                        the reservation steps to complete your booking.
+                    </div>
+
+                </div>
+
+
+                <div class="help-faq-item"
+                     data-category="booking">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            Can I modify my reservation?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Reservation changes may depend on the conditions
+                        associated with your booking. Contact our support
+                        team if you need assistance with a change.
+                    </div>
+
+                </div>
+
+
+                <div class="help-faq-item"
+                     data-category="booking">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            Can I cancel my reservation?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Cancellation conditions depend on the reservation
+                        policy associated with your booking. Please review
+                        your booking details or contact our support team.
+                    </div>
+
+                </div>
+
+
+                <div class="help-faq-item"
+                     data-category="rooms">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            How can I choose the right room or space?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Each room or space includes information about its
+                        capacity, features and available amenities. Compare
+                        these details to find the option that best matches
+                        your requirements.
+                    </div>
+
+                </div>
+
+
+                <div class="help-faq-item"
+                     data-category="payment">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            What payment methods are accepted?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Available payment methods may vary depending on the
+                        reservation process. The available options will be
+                        displayed during booking.
+                    </div>
+
+                </div>
+
+
+                <div class="help-faq-item"
+                     data-category="stay">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            What are the check-in and check-out times?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Check-in and check-out times depend on the space
+                        or accommodation selected. Please check your
+                        reservation details for the applicable times.
+                    </div>
+
+                </div>
+
+
+                <div class="help-faq-item"
+                     data-category="amenities">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            How can I know which amenities are available?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Available amenities are listed on the details
+                        page of each room or space. Review the amenities
+                        before completing your reservation.
+                    </div>
+
+                </div>
+
+
+                <div class="help-faq-item"
+                     data-category="offers">
+
+                    <button
+                        type="button"
+                        class="help-faq-button"
+                        aria-expanded="false"
+                    >
+                        <span>
+                            Where can I find current offers?
+                        </span>
+
+                        <span class="help-faq-icon">
+                            <i class="bi bi-plus"></i>
+                        </span>
+                    </button>
+
+                    <div class="help-faq-answer">
+                        Visit our Offers section to discover current
+                        promotions and special opportunities available
+                        through Book My Space.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="help-no-results"
+                id="helpNoResults"
+            >
+                <i class="bi bi-search" style="color:#a88b57; font-size:22px;"></i>
+
+                <div style="margin-top:10px;">
+                    No results found. Try another search term.
+                </div>
+            </div>
+
+        </section>
+
+
+        {# =================================================
+           CONTACT SUPPORT
+           ================================================= #}
+
+        <section class="help-contact">
+
+            <div class="help-contact-inner">
+
+                <div>
+
+                    <div class="help-contact-label">
+                        Need more assistance?
+                    </div>
+
+                    <h2 class="help-contact-title">
+                        We're here to help.
+                    </h2>
+
+                    <p class="help-contact-text">
+                        Couldn't find what you were looking for?
+                        Our support team is ready to assist you with
+                        your questions and booking needs.
+                    </p>
+
+                </div>
+
+
+                <div class="help-contact-actions">
+
+                    <a
+                        href="mailto:support@bookmyspace.com"
+                        class="help-contact-button"
+                    >
+                        <i class="bi bi-envelope"></i>
+                        Email Support
+                    </a>
+
+                    <a
+                        href="#"
+                        class="help-contact-button secondary"
+                    >
+                        <i class="bi bi-chat-dots"></i>
+                        Contact Us
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* =====================================================
+       FAQ ACCORDION
+       ===================================================== */
+
+    const faqButtons = document.querySelectorAll('.help-faq-button');
+
+    faqButtons.forEach(function (button) {
+
+        button.addEventListener('click', function () {
+
+            const answer = button.nextElementSibling;
+            const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+            faqButtons.forEach(function (otherButton) {
+
+                if (otherButton !== button) {
+
+                    otherButton.setAttribute('aria-expanded', 'false');
+
+                    const otherAnswer = otherButton.nextElementSibling;
+
+                    if (otherAnswer) {
+                        otherAnswer.classList.remove('is-open');
+                    }
+
+                }
+
+            });
+
+            button.setAttribute(
+                'aria-expanded',
+                isOpen ? 'false' : 'true'
+            );
+
+            if (answer) {
+                answer.classList.toggle('is-open', !isOpen);
+            }
+
+        });
+
+    });
+
+
+    /* =====================================================
+       SEARCH
+       ===================================================== */
+
+    const searchInput = document.getElementById('helpSearch');
+    const searchForm = document.getElementById('helpSearchForm');
+    const faqItems = document.querySelectorAll('.help-faq-item');
+    const noResults = document.getElementById('helpNoResults');
+
+    function performSearch() {
+
+        const query = searchInput.value
+            .trim()
+            .toLowerCase();
+
+        let resultsFound = false;
+
+        faqItems.forEach(function (item) {
+
+            const text = item.textContent.toLowerCase();
+
+            if (query === '' || text.includes(query)) {
+
+                item.style.display = '';
+
+                if (query !== '') {
+                    resultsFound = true;
+                }
+
+            } else {
+
+                item.style.display = 'none';
+
+            }
+
+        });
+
+        if (query === '') {
+            noResults.classList.remove('is-visible');
+        } else if (!resultsFound) {
+            noResults.classList.add('is-visible');
+        } else {
+            noResults.classList.remove('is-visible');
+        }
+
+    }
+
+    searchInput.addEventListener('input', performSearch);
+
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        performSearch();
+    });
+
+});
+</script>
+
+{% endblock %}

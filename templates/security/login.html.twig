@@ -4,54 +4,205 @@
 
 {% block body %}
 
-<div class="login-container">
+<style>
+    .login-page {
+        --ivory: #f8f6f1;
+        --paper: #fffdf9;
+        --ink: #22201c;
+        --muted: #706b62;
+        --line: #ded8cd;
+        --gold: #a88b57;
 
-    <div class="login-card">
+        min-height: calc(100vh - 5.25rem);
+        display: grid;
+        place-items: center;
+        padding: clamp(3.5rem, 8vw, 7rem) 1.25rem;
+        background:
+            radial-gradient(
+                circle at top right,
+                rgba(168, 139, 87, .12),
+                transparent 34rem
+            ),
+            var(--ivory);
+        color: var(--ink);
+    }
 
-        <h1>Welcome Back</h1>
+    .login-card {
+        width: min(100%, 29rem);
+        padding: clamp(2rem, 6vw, 3.5rem);
+        background: var(--paper);
+        border: 1px solid var(--line);
+        box-shadow: 0 1.25rem 3.5rem rgba(34, 32, 28, .08);
+    }
 
-        <p>Sign in to continue to your workspace.</p>
+    .login-eyebrow {
+        margin: 0 0 1rem;
+        color: var(--gold);
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
+    .login-card h1 {
+        margin: 0;
+        font-family: Georgia, "Iowan Old Style", serif;
+        font-size: clamp(2.25rem, 6vw, 3.25rem);
+        font-weight: 400;
+        letter-spacing: -.035em;
+    }
+
+    .login-intro {
+        margin: 1rem 0 2.25rem;
+        color: var(--muted);
+        line-height: 1.7;
+    }
+
+    .login-error {
+        margin-bottom: 1.5rem;
+        padding: .85rem 1rem;
+        border-left: 3px solid #a43b32;
+        background: #fbefed;
+        color: #792a23;
+        font-size: .9rem;
+    }
+
+    .login-field {
+        margin-bottom: 1.25rem;
+    }
+
+    .login-field label {
+        display: block;
+        margin-bottom: .5rem;
+        color: var(--ink);
+        font-size: .76rem;
+        font-weight: 700;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+    }
+
+    .login-field input {
+        width: 100%;
+        padding: .85rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 0;
+        background: #fff;
+        color: var(--ink);
+        outline: none;
+        transition: border-color .2s ease, box-shadow .2s ease;
+        box-sizing: border-box;
+    }
+
+    .login-field input:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(168, 139, 87, .16);
+    }
+
+    .login-submit {
+        width: 100%;
+        margin-top: .5rem;
+        padding: .9rem 1.25rem;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: var(--paper);
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        transition:
+            background .2s ease,
+            border-color .2s ease,
+            transform .2s ease;
+        cursor: pointer;
+    }
+
+    .login-submit:hover,
+    .login-submit:focus-visible {
+        border-color: var(--gold);
+        background: var(--gold);
+        transform: translateY(-1px);
+    }
+
+    .login-links {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: .88rem;
+    }
+
+    .login-links a {
+        color: var(--ink);
+        text-decoration-color: var(--gold);
+        text-underline-offset: .2rem;
+    }
+</style>
+
+<main class="login-page">
+
+    <section class="login-card" aria-labelledby="login-title">
+
+        <p class="login-eyebrow">Book My Space</p>
+
+        <h1 id="login-title">Welcome back</h1>
+
+        <p class="login-intro">
+            Sign in to manage your bookings and workspace preferences.
+        </p>
 
         {% if error %}
-            <div class="login-error">
+            <div class="login-error" role="alert">
                 {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
         {% endif %}
 
         <form method="post" action="{{ path('app_login') }}">
 
-            <div class="form-group">
-                <label for="email">Email</label>
+            <div class="login-field">
+                <label for="email">Email address</label>
+
                 <input
                     type="email"
                     id="email"
                     name="_username"
                     value="{{ last_username }}"
-                    placeholder="Enter your email"
+                    autocomplete="email"
                     required
                     autofocus
                 >
             </div>
 
-            <div class="form-group">
+            <div class="login-field">
                 <label for="password">Password</label>
+
                 <input
                     type="password"
                     id="password"
                     name="_password"
-                    placeholder="Enter your password"
+                    autocomplete="current-password"
                     required
                 >
             </div>
 
-            <button type="submit">
-                Sign In
+            <button class="login-submit" type="submit">
+                Sign in
             </button>
 
         </form>
 
-    </div>
+        <div class="login-links">
+            <a href="{{ path('app_registration') }}">
+                Create an account
+            </a>
 
-</div>
+            <a href="mailto:support@bookmyspace.com">
+                Need help?
+            </a>
+        </div>
+
+    </section>
+
+</main>
 
 {% endblock %}

@@ -4,325 +4,486 @@
 
 {% block body %}
 
+{% set categoryCount = grouped_amenities is defined ? grouped_amenities|length : 0 %}
+{% set totalAmenities = 0 %}
+
+{% if grouped_amenities is defined %}
+    {% for cat, catAmenities in grouped_amenities %}
+        {% set totalAmenities = totalAmenities + catAmenities|length %}
+    {% endfor %}
+{% endif %}
+
 <style>
+/* ==========================================================
+   Book My Space — Amenities
+   Concept: "Facility Index" — the amenities page reads like the
+   specification sheet for a building: warm drafting-paper
+   background, ink-blue blueprint linework, brass accent for
+   interactive moments. All rules are scoped under .amenities-page.
+========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+.amenities-page,
+.amenities-page * {
+    box-sizing: border-box;
+}
+
 .amenities-page {
-    --bg: #f8f7f4;
-    --white: #ffffff;
-    --text: #252522;
-    --muted: #77736b;
-    --line: #dedbd4;
-    --accent: #a88b57;
+    --paper: #F3EEE1;
+    --ink: #211F1A;
+    --muted: #726B5C;
+    --line: #DED4BB;
+    --blueprint: #33495A;
+    --brass: #9C7A3B;
 
-    background: var(--bg);
-    color: var(--text);
+    background: var(--paper);
+    color: var(--ink);
 
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
 
-    min-height: 100vh;
-    padding: 4rem 1.5rem 5rem;
+    padding: clamp(2.5rem, 5vw, 5rem) clamp(1.25rem, 4vw, 3rem) 6rem;
 }
 
-.amenities-page__container {
-    max-width: 1120px;
+.amenities-page__inner {
+    max-width: 1180px;
     margin: 0 auto;
 }
 
-.amenities-hero {
-    max-width: 700px;
-    margin: 0 auto 4.5rem;
-    text-align: center;
+.amenities-page [hidden] {
+    display: none !important;
 }
 
-.amenities-hero__label {
-    margin: 0 0 .9rem;
+/* ---------- shared blueprint corner marks ---------- */
 
-    color: var(--accent);
+.amenities-page .am-mark {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: var(--blueprint);
+    opacity: .55;
+    pointer-events: none;
+}
+.amenities-page .am-mark--tl { top: 0; left: 0; border-top: 1px solid; border-left: 1px solid; }
+.amenities-page .am-mark--tr { top: 0; right: 0; border-top: 1px solid; border-right: 1px solid; }
+.amenities-page .am-mark--bl { bottom: 0; left: 0; border-bottom: 1px solid; border-left: 1px solid; }
+.amenities-page .am-mark--br { bottom: 0; right: 0; border-bottom: 1px solid; border-right: 1px solid; }
 
-    font-size: .65rem;
-    font-weight: 600;
-    letter-spacing: .18em;
+/* ---------- hero ---------- */
+
+.amenities-page .am-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem);
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.amenities-page .am-hero__copy {
+    max-width: 640px;
+}
+
+.amenities-page .am-hero__label {
+    margin: 0 0 1.1rem;
+
+    color: var(--blueprint);
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .06em;
     text-transform: uppercase;
 }
 
-.amenities-hero__title {
-    margin: 0 0 1rem;
+.amenities-page .am-hero__title {
+    margin: 0 0 1.1rem;
 
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(2.7rem, 5vw, 4.2rem);
-    font-weight: 400;
-    line-height: 1;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.3rem, 3.2vw + 1rem, 3.9rem);
+    line-height: 1.06;
+    letter-spacing: -.01em;
 
-    color: var(--text);
+    color: var(--ink);
 }
 
-.amenities-hero__text {
-    max-width: 620px;
-    margin: 0 auto;
+.amenities-page .am-hero__text {
+    margin: 0;
 
     color: var(--muted);
 
-    font-size: .9rem;
+    font-size: .98rem;
     line-height: 1.7;
+    max-width: 46ch;
 }
 
-.amenity-category {
-    margin-top: 3.5rem;
+.amenities-page .am-hero__plan {
+    width: 100%;
+    height: auto;
+    max-width: 260px;
+    margin-inline: auto;
+    color: var(--blueprint);
+}
+.amenities-page .am-hero__plan rect,
+.amenities-page .am-hero__plan line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+}
+.amenities-page .am-hero__plan circle {
+    fill: var(--brass);
+    stroke: none;
 }
 
-.amenity-category:first-of-type {
-    margin-top: 0;
-}
+/* ---------- toolbar ---------- */
 
-.amenity-category__header {
-    display: grid;
-    grid-template-columns: 55px 1fr;
-    align-items: center;
-
-    margin-bottom: 1.2rem;
-    padding-bottom: .75rem;
-
-    border-bottom: 1px solid var(--line);
-}
-
-.amenity-category__index {
-    color: var(--accent);
-
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: .75rem;
-    letter-spacing: .05em;
-}
-
-.amenity-category__heading {
+.amenities-page .am-toolbar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    gap: 1.25rem 2.25rem;
 
-    gap: 1rem;
-}
-
-.amenity-category__title {
-    margin: 0;
-
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.55rem;
-    font-weight: 400;
-    line-height: 1.2;
-
-    color: var(--text);
-
-    text-transform: capitalize;
-}
-
-.amenity-category__count {
-    color: var(--muted);
-
-    font-size: .65rem;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-}
-
-.amenity-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-}
-
-.amenity-item {
-    display: flex;
-    align-items: flex-start;
-
-    gap: 1rem;
-
-    min-height: 125px;
-    padding: 1.25rem;
-
-    background: var(--white);
-    border: 1px solid var(--line);
-
-    transition:
-        border-color .25s ease,
-        transform .25s ease;
-}
-
-.amenity-item:hover {
-    border-color: rgba(168, 139, 87, .65);
-    transform: translateY(-1px);
-}
-
-.amenity-item__icon {
-    flex: 0 0 auto;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 44px;
-    height: 44px;
-
-    border: 1px solid var(--line);
-    border-radius: 50%;
-
-    color: var(--accent);
-
-    font-size: 1rem;
-
-    transition:
-        background-color .25s ease,
-        border-color .25s ease,
-        color .25s ease;
-}
-
-.amenity-item:hover .amenity-item__icon {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-}
-
-.amenity-item__content {
-    min-width: 0;
-}
-
-.amenity-item__name {
-    margin: .1rem 0 .4rem;
-
-    color: var(--text);
-
-    font-size: .95rem;
-    font-weight: 700;
-    line-height: 1.3;
-}
-
-.amenity-item__description {
-    margin: 0;
-
-    color: var(--muted);
-
-    font-size: .78rem;
-    line-height: 1.6;
-}
-.amenities-empty {
-    max-width: 500px;
-    margin: 0 auto;
-
-    padding: 3.5rem 1.5rem;
-
-    text-align: center;
+    padding-block: 1.5rem;
+    margin-bottom: 1.25rem;
 
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
 
-.amenities-empty__icon {
+.amenities-page .am-toolbar__search {
     display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.amenities-page .am-toolbar__search-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.amenities-page .am-toolbar__input {
+    width: min(300px, 55vw);
+    padding: .4rem 0;
+
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+
+    font-family: 'Inter', sans-serif;
+    font-size: .95rem;
+    color: var(--ink);
+
+    transition: border-color .2s ease;
+}
+.amenities-page .am-toolbar__input::placeholder { color: var(--muted); opacity: .8; }
+.amenities-page .am-toolbar__input:focus {
+    outline: none;
+    border-bottom-color: var(--blueprint);
+}
+
+.amenities-page .am-toolbar__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem 1.35rem;
+}
+
+.amenities-page .am-chip {
+    padding: .2rem 0;
+
+    background: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+
+    transition: color .2s ease, border-color .2s ease;
+}
+.amenities-page .am-chip:hover { color: var(--ink); }
+.amenities-page .am-chip.is-active {
+    color: var(--ink);
+    border-bottom-color: var(--brass);
+}
+
+.amenities-page .am-toolbar__clear {
+    margin-left: auto;
+
+    background: none;
+    border: none;
+    padding: 0;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--blueprint);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.amenities-page .am-status {
+    margin: 0 0 2.5rem;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .03em;
+    color: var(--muted);
+}
+
+/* ---------- sections ---------- */
+
+.amenities-page .am-section {
+    padding-block: 2.75rem;
+    border-top: 1px solid var(--line);
+}
+.amenities-page .am-section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+@media (min-width: 900px) {
+    .amenities-page .am-section--right { padding-left: 9%; }
+}
+
+.amenities-page.am-js-ready .am-section {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+.amenities-page.am-js-ready .am-section.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+.amenities-page .am-section__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .5rem 1rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.amenities-page .am-section__code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--blueprint);
+}
+
+.amenities-page .am-section__title {
+    margin: 0;
+
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(1.4rem, 1.6vw + 1rem, 2rem);
+    color: var(--ink);
+}
+
+.amenities-page .am-section__count {
+    margin-left: auto;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* ---------- amenity list (standard rows) ---------- */
+
+.amenities-page .am-list {
+    margin: 0;
+}
+
+.amenities-page .am-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: .5rem 1.5rem;
+
+    padding-block: 1.05rem;
+    border-top: 1px solid var(--line);
+}
+.amenities-page .am-row:first-child { border-top: none; }
+
+.amenities-page .am-row__term {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+
+    flex: 0 0 auto;
+    min-width: 220px;
+    margin: 0;
+}
+
+.amenities-page .am-row__icon {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    width: 50px;
-    height: 50px;
-
-    margin: 0 auto 1rem;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
 
     border: 1px solid var(--line);
     border-radius: 50%;
 
-    color: var(--accent);
+    color: var(--blueprint);
+    font-size: .95rem;
+
+    transition: border-color .2s ease, transform .2s ease;
+}
+.amenities-page .am-row:hover .am-row__icon,
+.amenities-page .am-row:focus-within .am-row__icon {
+    border-color: var(--brass);
+    transform: translateY(-1px);
 }
 
-.amenities-empty__title {
-    margin: 0 0 .5rem;
-
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.7rem;
-    font-weight: 400;
+.amenities-page .am-row__name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: .98rem;
+    color: var(--ink);
 }
 
-.amenities-empty__text {
+.amenities-page .am-row__desc {
+    flex: 1 1 320px;
     margin: 0;
 
     color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.65;
+    max-width: 54ch;
+}
 
-    font-size: .85rem;
+/* ---------- compact variant (small categories) ---------- */
+
+.amenities-page .am-section--compact .am-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.amenities-page .am-section--compact .am-row {
+    flex: 1 1 220px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .5rem;
+
+    padding: .25rem 1.5rem;
+    border-top: none;
+    border-left: 1px solid var(--line);
+}
+.amenities-page .am-section--compact .am-row:first-child { border-left: none; }
+
+.amenities-page .am-section--compact .am-row__desc {
+    max-width: none;
+}
+
+/* ---------- empty / no-results states ---------- */
+
+.amenities-page .am-empty {
+    position: relative;
+
+    max-width: 480px;
+    margin: 3rem auto 0;
+    padding: 3rem 2rem;
+
+    text-align: center;
+}
+
+.amenities-page .am-empty__title {
+    margin: 0 0 .6rem;
+
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--ink);
+}
+
+.amenities-page .am-empty__text {
+    margin: 0 0 1.5rem;
+
+    color: var(--muted);
+    font-size: .92rem;
     line-height: 1.6;
 }
-@media (max-width: 800px) {
 
-    .amenities-page {
-        padding: 3.5rem 1.25rem 4rem;
-    }
+.amenities-page .am-empty__clear {
+    padding: .5rem 0;
 
-    .amenity-grid {
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--brass);
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+/* ---------- focus visibility ---------- */
+
+.amenities-page a:focus-visible,
+.amenities-page button:focus-visible,
+.amenities-page input:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 3px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+    .amenities-page .am-hero {
         grid-template-columns: 1fr;
+        padding-inline: 1rem;
     }
-
-    .amenity-item {
-        min-height: auto;
-    }
+    .amenities-page .am-hero__plan { display: none; }
 }
-@media (max-width: 600px) {
 
-    .amenities-page {
-        padding: 3rem 1rem 4rem;
-    }
+@media (max-width: 640px) {
+    .amenities-page { padding: 2rem 1rem 4.5rem; }
 
-    .amenities-hero {
-        margin-bottom: 3.5rem;
-    }
+    .amenities-page .am-hero { padding: 1rem 0; }
 
-    .amenities-hero__title {
-        font-size: 2.8rem;
-    }
+    .amenities-page .am-toolbar { flex-direction: column; align-items: flex-start; }
+    .amenities-page .am-toolbar__clear { margin-left: 0; }
+    .amenities-page .am-toolbar__input { width: 100%; }
 
-    .amenities-hero__text {
-        font-size: .82rem;
-        line-height: 1.65;
-    }
+    .amenities-page .am-section--right { padding-left: 0; }
 
-    .amenity-category {
-        margin-top: 3rem;
-    }
+    .amenities-page .am-section__count { margin-left: 0; flex-basis: 100%; }
 
-    .amenity-category__header {
-        grid-template-columns: 40px 1fr;
-        margin-bottom: 1rem;
-    }
-
-    .amenity-category__title {
-        font-size: 1.35rem;
-    }
-
-    .amenity-category__count {
-        display: none;
-    }
-
-    .amenity-grid {
-        gap: .75rem;
-    }
-
-    .amenity-item {
-        gap: .85rem;
-        padding: 1rem;
-    }
-
-    .amenity-item__icon {
-        width: 40px;
-        height: 40px;
-        font-size: .9rem;
-    }
-
-    .amenity-item__name {
-        font-size: .88rem;
-    }
-
-    .amenity-item__description {
-        font-size: .75rem;
-        line-height: 1.55;
-    }
+    .amenities-page .am-row__term { min-width: 100%; }
 }
+
 @media (prefers-reduced-motion: reduce) {
-
-    .amenity-item,
-    .amenity-item__icon {
+    .amenities-page .am-row__icon,
+    .amenities-page .am-toolbar__input,
+    .amenities-page .am-chip {
+        transition: none;
+    }
+    .amenities-page.am-js-ready .am-section {
+        opacity: 1;
+        transform: none;
         transition: none;
     }
 }
@@ -330,142 +491,274 @@
 
 
 <main class="amenities-page">
-
-    <div class="amenities-page__container">
-
-
-        {# =====================================================
-           HERO
-        ===================================================== #}
-
-        <header class="amenities-hero">
-
-            <p class="amenities-hero__label">
-                Book My Space
-            </p>
-
-            <h1 class="amenities-hero__title">
-                Amenities
-            </h1>
-
-            <p class="amenities-hero__text">
-                At BookMySpace, every detail is designed to make your
-                workspace experience comfortable, productive, and effortless.
-                From high-speed Wi-Fi and professional meeting facilities
-                to refreshing coffee areas, secure access, and convenient
-                parking, everything you need is within reach.
-            </p>
-
-        </header>
-
-
-        {# =====================================================
-           DYNAMIC CATEGORIES
-        ===================================================== #}
+    <div class="amenities-page__inner">
 
         {% if grouped_amenities is defined and grouped_amenities|length > 0 %}
 
-            {% for category, categoryAmenities in grouped_amenities %}
+            {# =====================================================
+               HERO
+            ===================================================== #}
 
-                <section
-                    class="amenity-category"
-                    aria-labelledby="category-{{ loop.index }}"
-                >
+            <header class="am-hero" aria-labelledby="am-hero-title">
 
-                    {# CATEGORY HEADER #}
+                <span class="am-mark am-mark--tl" aria-hidden="true"></span>
+                <span class="am-mark am-mark--tr" aria-hidden="true"></span>
+                <span class="am-mark am-mark--bl" aria-hidden="true"></span>
+                <span class="am-mark am-mark--br" aria-hidden="true"></span>
 
-                    <div class="amenity-category__header">
+                <div class="am-hero__copy">
+                    <p class="am-hero__label">
+Facility spec — {{ categoryCount }} {{ categoryCount == 1 ? 'section' : 'sections' }}
+                    </p>
 
-                        <span class="amenity-category__index">
-                            {{ '%02d'|format(loop.index) }}
-                        </span>
+                    <h1 class="am-hero__title" id="am-hero-title">
+                        Every space, considered down to the last outlet.
+                    </h1>
 
-                        <div class="amenity-category__heading">
+                    <p class="am-hero__text">
+                        This is the working specification for every Book My Space location —
+                        connectivity, comfort, and the small conveniences that keep a workday
+                        running. Search it, filter it, or read it start to finish.
+                    </p>
+                </div>
 
-                            <h2
-                                id="category-{{ loop.index }}"
-                                class="amenity-category__title"
-                            >
-                                {{ category }}
-                            </h2>
+                <svg class="am-hero__plan" viewBox="0 0 240 260" role="img" aria-hidden="true" focusable="false">
+                    <rect x="20" y="20" width="90" height="70"></rect>
+                    <rect x="130" y="20" width="90" height="110"></rect>
+                    <rect x="20" y="110" width="90" height="130"></rect>
+                    <line x1="110" y1="55" x2="130" y2="55" stroke-dasharray="4 4"></line>
+                    <line x1="110" y1="175" x2="220" y2="175" stroke-dasharray="4 4"></line>
+                    <circle cx="55" cy="150" r="4"></circle>
+                    <circle cx="80" cy="150" r="4"></circle>
+                    <circle cx="175" cy="60" r="4"></circle>
+                </svg>
 
-                            <span class="amenity-category__count">
-                                {{ categoryAmenities|length }}
-                                {% if categoryAmenities|length == 1 %}
-                                    amenity
-                                {% else %}
-                                    amenities
-                                {% endif %}
+            </header>
+
+
+            {# =====================================================
+               TOOLBAR — search + filter
+            ===================================================== #}
+
+            <div class="am-toolbar" role="search" aria-label="Filter the amenities index">
+
+                <div class="am-toolbar__search">
+                    <label for="am-search" class="am-toolbar__search-label">Search the index</label>
+                    <input
+                        type="search"
+                        id="am-search"
+                        class="am-toolbar__input"
+                        placeholder="Try “fibre”, “parking”, “meeting rooms”…"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="am-toolbar__filters" role="group" aria-label="Filter by section">
+                    <button type="button" class="am-chip is-active" data-filter="all" aria-pressed="true">All</button>
+                    {% for category, categoryAmenities in grouped_amenities %}
+                        <button type="button" class="am-chip" data-filter="{{ category|lower }}" aria-pressed="false">
+                            {{ category }}
+                        </button>
+                    {% endfor %}
+                </div>
+
+                <button type="button" class="am-toolbar__clear" id="am-clear" hidden>Clear</button>
+
+            </div>
+
+           <p class="am-status" id="am-status" role="status" aria-live="polite">
+    {{ categoryCount }} {{ categoryCount == 1 ? 'section' : 'sections' }}
+</p>
+
+
+
+            <div id="am-sections">
+
+                {% for category, categoryAmenities in grouped_amenities %}
+
+                    <section
+                        class="am-section {{ categoryAmenities|length <= 2 ? 'am-section--compact' : '' }} {{ loop.index is odd ? 'am-section--left' : 'am-section--right' }}"
+                        data-category="{{ category|lower }}"
+                        aria-labelledby="am-cat-{{ loop.index }}"
+                    >
+
+                        <div class="am-section__head">
+                            <span class="am-section__code">A—{{ '%02d'|format(loop.index) }}</span>
+                            <h2 class="am-section__title" id="am-cat-{{ loop.index }}">{{ category }}</h2>
+                            <span class="am-section__count">
+                                {{ categoryAmenities|length }} {{ categoryAmenities|length == 1 ? 'entry' : 'entries' }}
                             </span>
-
                         </div>
 
-                    </div>
-
-
-                    {# AMENITIES #}
-
-                    <div class="amenity-grid">
-
-                        {% for amenity in categoryAmenities %}
-
-                            <article class="amenity-item">
-
-                                <span
-                                    class="amenity-item__icon"
-                                    aria-hidden="true"
+                        <dl class="am-list">
+                            {% for amenity in categoryAmenities %}
+                                <div
+                                    class="am-row"
+                                    data-name="{{ amenity.name|lower }}"
+                                    data-desc="{{ amenity.description|lower }}"
                                 >
-                                    <i class="bi {{ amenity.icon }}"></i>
-                                </span>
-
-
-                                <div class="amenity-item__content">
-
-                                    <h3 class="amenity-item__name">
-                                        {{ amenity.name }}
-                                    </h3>
-
-                                    <p class="amenity-item__description">
-                                        {{ amenity.description }}
-                                    </p>
-
+                                    <dt class="am-row__term">
+                                        <span class="am-row__icon" aria-hidden="true">
+                                            <i class="bi {{ amenity.icon }}"></i>
+                                        </span>
+                                        <span class="am-row__name">{{ amenity.name }}</span>
+                                    </dt>
+                                    <dd class="am-row__desc">{{ amenity.description }}</dd>
                                 </div>
+                            {% endfor %}
+                        </dl>
 
-                            </article>
+                    </section>
 
-                        {% endfor %}
+                {% endfor %}
 
-                    </div>
+            </div>
 
-                </section>
 
-            {% endfor %}
 
+            <div class="am-empty" id="am-empty" hidden>
+                <span class="am-mark am-mark--tl" aria-hidden="true"></span>
+                <span class="am-mark am-mark--tr" aria-hidden="true"></span>
+                <span class="am-mark am-mark--bl" aria-hidden="true"></span>
+                <span class="am-mark am-mark--br" aria-hidden="true"></span>
+
+                <p class="am-empty__title">No entries match your search.</p>
+                <p class="am-empty__text">
+                    Try a different word, or clear the search to see the full specification.
+                </p>
+                <button type="button" class="am-empty__clear" id="am-empty-clear">Clear search</button>
+            </div>
 
         {% else %}
 
-            {# EMPTY STATE #}
 
-            <div class="amenities-empty">
+            <div class="am-empty">
+                <span class="am-mark am-mark--tl" aria-hidden="true"></span>
+                <span class="am-mark am-mark--tr" aria-hidden="true"></span>
+                <span class="am-mark am-mark--bl" aria-hidden="true"></span>
+                <span class="am-mark am-mark--br" aria-hidden="true"></span>
 
-                <div class="amenities-empty__icon">
-                    <i class="bi bi-info-circle"></i>
-                </div>
-
-                <h2 class="amenities-empty__title">
-                    Currently unavailable
-                </h2>
-
-                <p class="amenities-empty__text">
-                    Our amenities list will be back shortly.
+                <p class="am-empty__title">Specification unavailable</p>
+                <p class="am-empty__text">
+                    The amenities index isn't published yet. Check back shortly.
                 </p>
-
             </div>
 
         {% endif %}
 
     </div>
-
 </main>
+
+<script>
+(function () {
+    var root = document.querySelector('.amenities-page');
+    if (!root) return;
+
+    var searchInput = document.getElementById('am-search');
+    var sectionsWrap = document.getElementById('am-sections');
+    if (!searchInput || !sectionsWrap) return;
+
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.am-chip'));
+    var clearBtn = document.getElementById('am-clear');
+    var statusEl = document.getElementById('am-status');
+    var sections = Array.prototype.slice.call(sectionsWrap.querySelectorAll('.am-section'));
+    var emptyState = document.getElementById('am-empty');
+    var emptyClearBtn = document.getElementById('am-empty-clear');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var activeFilter = 'all';
+    var totalCount = sections.reduce(function (sum, s) {
+        return sum + s.querySelectorAll('.am-row').length;
+    }, 0);
+
+    function setActiveChip(filterValue) {
+        activeFilter = filterValue;
+        chips.forEach(function (chip) {
+            var isActive = chip.dataset.filter === filterValue;
+            chip.classList.toggle('is-active', isActive);
+            chip.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    }
+
+    function applyFilters() {
+        var query = (searchInput.value || '').trim().toLowerCase();
+        var visibleTotal = 0;
+
+        sections.forEach(function (section) {
+            var categoryMatches = activeFilter === 'all' || section.dataset.category === activeFilter;
+            var rows = Array.prototype.slice.call(section.querySelectorAll('.am-row'));
+            var visibleInSection = 0;
+
+            rows.forEach(function (row) {
+                var textMatches = !query ||
+                    row.dataset.name.indexOf(query) !== -1 ||
+                    row.dataset.desc.indexOf(query) !== -1 ||
+                    section.dataset.category.indexOf(query) !== -1;
+
+                var show = categoryMatches && textMatches;
+                row.hidden = !show;
+                if (show) visibleInSection++;
+            });
+
+            section.hidden = visibleInSection === 0;
+            visibleTotal += visibleInSection;
+        });
+
+        var hasFilter = query !== '' || activeFilter !== 'all';
+        if (clearBtn) clearBtn.hidden = !hasFilter;
+
+        if (emptyState) emptyState.hidden = visibleTotal !== 0;
+        sectionsWrap.hidden = visibleTotal === 0;
+
+        if (statusEl) {
+            statusEl.textContent = visibleTotal + ' of ' + totalCount +
+                (totalCount === 1 ? ' amenity shown' : ' amenities shown');
+        }
+    }
+
+    function resetAll() {
+        searchInput.value = '';
+        setActiveChip('all');
+        applyFilters();
+        searchInput.focus();
+    }
+
+    chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+            var value = chip.dataset.filter;
+            setActiveChip(value);
+            applyFilters();
+
+            if (value !== 'all') {
+                var target = sections.filter(function (s) {
+                    return s.dataset.category === value;
+                })[0];
+                if (target && !target.hidden) {
+                    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+    if (clearBtn) clearBtn.addEventListener('click', resetAll);
+    if (emptyClearBtn) emptyClearBtn.addEventListener('click', resetAll);
+
+    applyFilters();
+
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+        root.classList.add('am-js-ready');
+        var observer = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        sections.forEach(function (section) { observer.observe(section); });
+    }
+})();
+</script>
 
 {% endblock %}
